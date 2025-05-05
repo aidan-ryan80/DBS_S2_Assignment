@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  mariadb:
+    image: mariadb:10.3
+    restart: no
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpass
+      MARIADB_DATABASE: HospitalDB
+      MARIADB_USER: casualuser
+      MARIADB_PASSWORD: casualpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d  # optional: put SQL files here
+      - hospitaldb_data_volume:/var/lib/mysql
+
+volumes:
+  hospitaldb_data_volume:
