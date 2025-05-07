@@ -19,27 +19,11 @@ except mariadb.Error as e:
 # Getting a Cursor
 cur = conn.cursor()
 
-# TODO: totalCost should become a derived attribute later
-cur.execute("""
-CREATE TABLE reservation (
-    reservationID INT PRIMARY KEY AUTO_INCREMENT,
-    status ENUM('pending', 'confirmed', 'cancelled', 'completed', 'no_show', 'expired', 'failed'),
-    paymentStatus ENUM('payed', 'unpayed', 'failed'),
-    checkInDate DATE NOT NULL,
-    checkOutDate DATE NOT NULL,
-    totalCost DECIMAL(10, 2),
-    hotelID INT,
-    customerID INT,
-    FOREIGN KEY (hotelID) REFERENCES hotel(hotelID),
-    FOREIGN KEY (customerID) REFERENCES customer(customerID),
-);
-""")
-
 cur.execute("""
 CREATE TABLE hotel (
     hotelID INT PRIMARY KEY AUTO_INCREMENT,
     address VARCHAR(100) NOT NULL, 
-    name VARCHAR(100) NOT NULL,
+    name VARCHAR(100) NOT NULL
 );
 """)
 
@@ -51,10 +35,12 @@ CREATE TABLE customer (
     phoneNumber VARCHAR(15) NOT NULL UNIQUE,
     name VARCHAR(100) NOT NULL,
     age VARCHAR(50) NOT NULL,
-    address VARCHAR(100) NOT NULL,
+    address VARCHAR(100) NOT NULL
 );
 """)
 
+# Apparently for payment only certified payment processors should store credit card numbers, CVV codes, Expiration dates, and cardholder names. 
+# Instead token or ID's are stored and referenced. For now I will include payment information for the customer, and each reservation
 cur.execute("""
 CREATE TABLE paymentInfo (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -68,14 +54,31 @@ CREATE TABLE paymentInfo (
 );
 """)
 
-# Apparently for payment only certified payment processors should store credit card numbers, CVV codes, Expiration dates, and cardholder names. 
-# Instead token or ID's are stored and referenced. For now I will include payment information for the customer, and each reservation
+cur.execute("""
+CREATE TABLE room (
+    price DECIMAL(10, 2) NOT NULL,
+    type ENUM('single', 'double', 'triple', 'quadruple') NOT NULL,
+    availability ENUM('available', 'unavailable') NOT NULL,
+    roomNumber SMALLINT(3) NOT NULL PRIMARY KEY,
+    floor TINYINT NOT NULL,
+    CHECK (floor = roomNumber DIV 100)
+);
+""")
 
-# Could have a Table for Emails, so that a user can have multiple emails associated with them (work, personal), or we can implement only a single email.
-# cur.execute("""
-# CREATE TABLE Emails (id INT PRIMARY KEY AUTO_INCREMENT,
-#     userID INT, 
-#     email VARCHAR(100) UNIQUE NOT NULL, 
-#     FOREIGN KEY (userID) REFERENCES Customer(customerID)
-# );
-# """)
+# TODO: totalCost should become a derived attribute later
+cur.execute("""
+CREATE TABLE reservation (
+    reservationID INT PRIMARY KEY AUTO_INCREMENT,
+    status ENUM('pending', 'confirmed', 'cancelled', 'completed', 'no_show', 'expired', 'failed') NOT NULL,
+    paymentStatus ENUM('payed', 'unpayed', 'failed') NOT NULL,
+    checkInDate DATE NOT NULL,
+    checkOutDate DATE NOT NULL,
+    totalCost DECIMAL(10, 2) NOT NULL,
+    hotelID INT,
+    customerID INT,
+    roomID SMALLINT(3),
+    FOREIGN KEY (hotelID) REFERENCES hotel(hotelID),
+    FOREIGN KEY (customerID) REFERENCES customer(customerID),
+    FOREIGN KEY (roomID) REFERENCES room(roomNumber)
+);
+""")
