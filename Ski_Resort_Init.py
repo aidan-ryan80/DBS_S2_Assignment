@@ -86,7 +86,7 @@ CREATE TABLE transport (
 
 # Junction table for the many to many relationship between package and transport
 cur.execute("""
-CREATE TABLE package_transportation (
+CREATE TABLE package_transport (
     packageID INT,
     transportID INT,
     PRIMARY KEY (packageID, transportID),
@@ -95,11 +95,17 @@ CREATE TABLE package_transportation (
 );
 """)
 
-cur.execute("""
-CREATE TABLE (
-
-);
-""")
+# cur.execute("""
+# CREATE TABLE skiPass (
+# 	skiPassID INT AUTO_INCREMENT PRIMARY KEY,
+# 	price DECIMAL(10, 2) NOT NULL CHECK (price > 0),
+# 	startDate DATETIME NOT NULL,
+# 	endDate DATETIME NOT NULL,
+# 	validityPeriod INTEGER CHECK (validityPeriod > 0),
+# 	CHECK (endDate >= startDate),
+# 	CHECK (validityPeriod = DATEDIFF(DAY, endDate, startDate))
+# );
+# """)
 
 # cur.execute("""
 # CREATE TABLE (
@@ -134,17 +140,5 @@ CREATE TABLE reservation (
 # 	difficultyLevel ENUM('Beginner', 'Intermediate', 'Advanced', 'Expert'),
 # 	skiLiftsCount SMALLINT CHECK (skiLiftsCount > 0),
 # 	slopesCount TINYINT CHECK (slopesCount > 0)
-# );
-# """)
-
-# cur.execute("""
-# CREATE TABLE skiPass (
-# 	skiPassID INT AUTO_INCREMENT PRIMARY KEY,
-# 	price DECIMAL(10, 2) CHECK (price > 0),
-# 	startDate DATETIME,
-# 	endDate DATETIME,
-# 	validityPeriod INTEGER CHECK (validityPeriod > 0),
-# 	CHECK (endDate >= startDate),
-# 	CHECK (validityPeriod = DATEDIFF(DAY, endDate, startDate))
 # );
 # """)

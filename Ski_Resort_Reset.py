@@ -19,7 +19,10 @@ except mariadb.Error as e:
 # Getting a Cursor
 cur = conn.cursor()
 
-tables = ["paymentInfo", "reservation", "customer", "hotel", "package", "room", "skiResort", "skiPass", "transport"]
+# Disable foreign key checks
+cur.execute("SET FOREIGN_KEY_CHECKS = 0;")
+
+tables = ["package_transport", "reservation", "package", "reservation", "paymentInfo", "transport", "room", "customer", "hotel"]
 
 for table in tables:
     cur.execute(f"DROP TABLE IF EXISTS {table};")
