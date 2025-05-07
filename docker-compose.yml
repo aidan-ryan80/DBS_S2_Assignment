@@ -2,6 +2,7 @@ version: '3.8'
 services:
   mariadb:
     image: mariadb:10.3
+    container_name: Ski-Resort-DB-01
     restart: no
     environment:
       MARIADB_ROOT_PASSWORD: rootpass
