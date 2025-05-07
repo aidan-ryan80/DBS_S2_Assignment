@@ -6,7 +6,7 @@ services:
     restart: no
     environment:
       MARIADB_ROOT_PASSWORD: rootpass
-      MARIADB_DATABASE: HospitalDB
+      MARIADB_DATABASE: SkiResortDB
       MARIADB_USER: casualuser
       MARIADB_PASSWORD: casualpass
     ports:

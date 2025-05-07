@@ -19,8 +19,7 @@ except mariadb.Error as e:
 # Getting a Cursor
 cur = conn.cursor()
 
-cur.execute("DROP TABLE paymentInfo;")
-cur.execute("DROP TABLE reservation;")
-cur.execute("DROP TABLE customer;")
-cur.execute("DROP TABLE hotel;")
-cur.execute("DROP TABLE room;")
+tables = ["paymentInfo", "reservation", "customer", "hotel", "package", "room", "skiResort", "skiPass", "transport"]
+
+for table in tables:
+    cur.execute(f"DROP TABLE IF EXISTS {table};")

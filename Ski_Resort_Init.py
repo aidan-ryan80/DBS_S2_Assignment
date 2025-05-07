@@ -56,14 +56,56 @@ CREATE TABLE paymentInfo (
 
 cur.execute("""
 CREATE TABLE room (
-    price DECIMAL(10, 2) NOT NULL,
+    roomNumber SMALLINT(3) NOT NULL PRIMARY KEY,
+    price DECIMAL(10, 2) NOT NULL CHECK (price > 0),
     type ENUM('single', 'double', 'triple', 'quadruple') NOT NULL,
     availability ENUM('available', 'unavailable') NOT NULL,
-    roomNumber SMALLINT(3) NOT NULL PRIMARY KEY,
-    floor TINYINT NOT NULL,
-    CHECK (floor = roomNumber DIV 100)
+    floor TINYINT NOT NULL CHECK (floor = roomNumber DIV 100)
 );
 """)
+
+cur.execute("""
+CREATE TABLE package (
+	packageID INT PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR(100) NOT NULL,
+	description TEXT,
+	price DECIMAL(10, 2) NOT NULL CHECK (price > 0),
+    roomID SMALLINT(3),
+    FOREIGN KEY (roomID) REFERENCES room(roomNumber)
+);
+""")
+
+cur.execute("""
+CREATE TABLE transport (
+	transportID INT AUTO_INCREMENT PRIMARY KEY,
+	type ENUM('shuttle', 'train', 'helicopter', 'snowmobile') NOT NULL,
+	price DECIMAL(10, 2) NOT NULL CHECK (price > 0),
+	timetable TEXT
+);
+""")
+
+# Junction table for the many to many relationship between package and transport
+cur.execute("""
+CREATE TABLE package_transportation (
+    packageID INT,
+    transportID INT,
+    PRIMARY KEY (packageID, transportID),
+    FOREIGN KEY (packageID) REFERENCES package(packageID) ON DELETE CASCADE,
+    FOREIGN KEY (transportID) REFERENCES transport(transportID) ON DELETE CASCADE
+);
+""")
+
+cur.execute("""
+CREATE TABLE (
+
+);
+""")
+
+# cur.execute("""
+# CREATE TABLE (
+
+# );
+# """)
 
 # TODO: totalCost should become a derived attribute later
 cur.execute("""
@@ -73,7 +115,7 @@ CREATE TABLE reservation (
     paymentStatus ENUM('payed', 'unpayed', 'failed') NOT NULL,
     checkInDate DATE NOT NULL,
     checkOutDate DATE NOT NULL,
-    totalCost DECIMAL(10, 2) NOT NULL,
+    totalCost DECIMAL(10, 2) NOT NULL CHECK (totalCost > 0),
     hotelID INT,
     customerID INT,
     roomID SMALLINT(3),
@@ -82,3 +124,27 @@ CREATE TABLE reservation (
     FOREIGN KEY (roomID) REFERENCES room(roomNumber)
 );
 """)
+
+# cur.execute("""
+# CREATE TABLE skiResort (
+# 	resortID INT AUTO_INCREMENT PRIMARY KEY,
+# 	name VARCHAR(100),
+# 	size FLOAT(4, 2) CHECK (size > 0),
+# 	location VARCHAR(255),
+# 	difficultyLevel ENUM('Beginner', 'Intermediate', 'Advanced', 'Expert'),
+# 	skiLiftsCount SMALLINT CHECK (skiLiftsCount > 0),
+# 	slopesCount TINYINT CHECK (slopesCount > 0)
+# );
+# """)
+
+# cur.execute("""
+# CREATE TABLE skiPass (
+# 	skiPassID INT AUTO_INCREMENT PRIMARY KEY,
+# 	price DECIMAL(10, 2) CHECK (price > 0),
+# 	startDate DATETIME,
+# 	endDate DATETIME,
+# 	validityPeriod INTEGER CHECK (validityPeriod > 0),
+# 	CHECK (endDate >= startDate),
+# 	CHECK (validityPeriod = DATEDIFF(DAY, endDate, startDate))
+# );
+# """)
