@@ -19,7 +19,7 @@ cursor = conn.cursor()
 
 def create_tables(cursor) -> None:
     cursor.execute("""
-    CREATE TABLE hotel (
+    CREATE TABLE IF NOT EXISTS hotel (
         hotelID INT PRIMARY KEY AUTO_INCREMENT,
         address VARCHAR(100) NOT NULL, 
         name VARCHAR(100) NOT NULL
@@ -28,7 +28,7 @@ def create_tables(cursor) -> None:
 
     # ? From email, name, age, address, and phoneNumber what should be NOT NULL?
     cursor.execute("""
-    CREATE TABLE customer (
+    CREATE TABLE IF NOT EXISTS customer (
         customerID INT AUTO_INCREMENT PRIMARY KEY,
         email VARCHAR(100) UNIQUE NOT NULL, 
         phoneNumber VARCHAR(15) NOT NULL UNIQUE,
@@ -41,7 +41,7 @@ def create_tables(cursor) -> None:
     # Apparently for payment only certified payment processors should store credit card numbers, CVV codes, Expiration dates, and cardholder names. 
     # Instead token or ID's are stored and referenced. For now I will include payment information for the customer, and each reservation
     cursor.execute("""
-    CREATE TABLE paymentInfo (
+    CREATE TABLE IF NOT EXISTS paymentInfo (
         id INT AUTO_INCREMENT PRIMARY KEY,
         customerID INT,
         billingAddress VARCHAR(100) NOT NULL,
@@ -54,7 +54,7 @@ def create_tables(cursor) -> None:
     """)
 
     cursor.execute("""
-    CREATE TABLE room (
+    CREATE TABLE IF NOT EXISTS room (
         roomNumber SMALLINT(3) NOT NULL PRIMARY KEY,
         price DECIMAL(10, 2) NOT NULL CHECK (price > 0),
         type ENUM('single', 'double', 'triple', 'quadruple') NOT NULL,
@@ -64,7 +64,7 @@ def create_tables(cursor) -> None:
     """)
 
     cursor.execute("""
-    CREATE TABLE skiPass (
+    CREATE TABLE IF NOT EXISTS skiPass (
         skiPassID INT AUTO_INCREMENT PRIMARY KEY,
         price DECIMAL(10, 2) NOT NULL CHECK (price > 0),
         startDate DATETIME NOT NULL,
@@ -75,7 +75,7 @@ def create_tables(cursor) -> None:
     """)
 
     cursor.execute("""
-    CREATE TABLE skiResort (
+    CREATE TABLE IF NOT EXISTS skiResort (
         resortID INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(100),
         size FLOAT(4, 2) CHECK (size > 0),
@@ -89,7 +89,7 @@ def create_tables(cursor) -> None:
     """)
 
     cursor.execute("""
-    CREATE TABLE package (
+    CREATE TABLE IF NOT EXISTS package (
         packageID INT PRIMARY KEY AUTO_INCREMENT,
         name VARCHAR(100) NOT NULL,
         description TEXT,
@@ -102,7 +102,7 @@ def create_tables(cursor) -> None:
     """)
 
     cursor.execute("""
-    CREATE TABLE transport (
+    CREATE TABLE IF NOT EXISTS transport (
         transportID INT AUTO_INCREMENT PRIMARY KEY,
         type ENUM('shuttle', 'train', 'helicopter', 'snowmobile') NOT NULL,
         price DECIMAL(10, 2) NOT NULL CHECK (price > 0),
@@ -112,7 +112,7 @@ def create_tables(cursor) -> None:
 
     # Junction table for the many to many relationship between package and transport
     cursor.execute("""
-    CREATE TABLE packageTransport (
+    CREATE TABLE IF NOT EXISTS packageTransport (
         packageID INT,
         transportID INT,
         PRIMARY KEY (packageID, transportID),
@@ -123,7 +123,7 @@ def create_tables(cursor) -> None:
 
     # TODO: totalCost should become a derived attribute later
     cursor.execute("""
-    CREATE TABLE reservation (
+    CREATE TABLE IF NOT EXISTS reservation (
         reservationID INT PRIMARY KEY AUTO_INCREMENT,
         status ENUM('pending', 'confirmed', 'cancelled', 'completed', 'no_show', 'expired', 'failed') NOT NULL,
         paymentStatus ENUM('payed', 'unpayed', 'failed') NOT NULL,
@@ -151,10 +151,10 @@ if cursor.fetchone():
     cursor.execute("USE SkiResortDB;")
     create_tables(cursor)
 
-    print("Successfully created tables in SkiResortDB Database")
+    print("\nSuccessfully created tables in SkiResortDB Database if they did not exist\n")
 else:
     cursor.execute("CREATE DATABASE SkiResortDB;")
     cursor.execute("USE SkiResortDB;")
     create_tables(cursor)
 
-    print("Successfully created the SkiResortDB Database and created required tables")
+    print("\nSuccessfully created the SkiResortDB Database and created required tables if they did not exist\n")
