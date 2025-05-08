@@ -9,8 +9,6 @@ try:
         password="rootpass",
         host="localhost",
         port=3306,
-        database="HospitalDB"
-
     )
 except mariadb.Error as e:
     print(f"Error connecting to MariaDB Platform: {e}")
@@ -19,10 +17,19 @@ except mariadb.Error as e:
 # Getting a Cursor
 cur = conn.cursor()
 
-# Disable foreign key checks
-cur.execute("SET FOREIGN_KEY_CHECKS = 0;")
+# Checking if the SkiResortDB exists
+cur.execute("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'SkiResortDB';")
+if cur.fetchone():
+    cur.execute("USE SkiResortDB;")
 
-tables = ["package_transport", "reservation", "package", "reservation", "paymentInfo", "transport", "room", "customer", "hotel"]
+    # Disabling foreign key checks for deleting all of the tables
+    cur.execute("SET FOREIGN_KEY_CHECKS = 0;")
 
-for table in tables:
-    cur.execute(f"DROP TABLE IF EXISTS {table};")
+    tables = ["packageTransport", "reservation", "package", "skiPass", "skiResort", "reservation", "paymentInfo", "transport", "room", "customer", "hotel"]
+
+    for table in tables:
+        cur.execute(f"DROP TABLE IF EXISTS {table};")
+
+    cur.execute("DROP DATABASE IF EXISTS SkiResortDB;")
+else:
+    print("Database SkiResortDB does not exist.")
