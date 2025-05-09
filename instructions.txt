@@ -1,0 +1,19 @@
+# Install Python and required system libraries for MariaDB Python connector
+# Set the working directory
+# Copy your files
+# Install Python dependencies
+# Run MariaDB and your script
+
+
+------------------------------------------
+# Copy only requirements first
+COPY requirements.txt .
+
+# Install dependencies (cached unless requirements.txt changes)
+RUN pip install -r requirements.txt
+
+# Then copy the rest
+COPY . .
+-------------------------------------------
+
+docker build -t ski_hotel_db .
