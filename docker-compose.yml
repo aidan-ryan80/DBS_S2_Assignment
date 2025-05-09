@@ -1,8 +1,7 @@
-version: '3.8'
 services:
   mariadb:
     image: mariadb:10.3
-    container_name: Ski-Resort-DB-01
+    container_name: Ski-Resort-DB-02
     restart: no
     environment:
       MARIADB_ROOT_PASSWORD: rootpass
@@ -12,7 +11,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./init:/docker-entrypoint-initdb.d  # optional: put SQL files here
+      - ./init:/docker-entrypoint-initdb.d  # SQL files will be added here to be run when the container is created
       - hospitaldb_data_volume:/var/lib/mysql
 
 volumes:
