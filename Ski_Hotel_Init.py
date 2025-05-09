@@ -1,6 +1,9 @@
 # Module Imports
 import mariadb
 import sys
+import time
+
+time.sleep(5)
 
 # Connect to MariaDB
 try:
