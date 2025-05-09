@@ -74,7 +74,8 @@ def create_tables(cursor) -> None:
         location VARCHAR(255),
         difficultyLevel ENUM('Beginner', 'Intermediate', 'Advanced', 'Expert'),
         skiLiftsCount SMALLINT CHECK (skiLiftsCount > 0),
-        slopesCount SMALLINT CHECK (slopesCount > 0)
+        slopesCount SMALLINT CHECK (slopesCount > 0),
+        businessHours TEXT;
     );
     """)
 
@@ -182,111 +183,111 @@ def enter_data(cursor) -> None:
     ]
     cursor.executemany("INSERT INTO paymentInfo (customerID, billingAddress, cardHolderName, expirationDate, cardIssuer, cardNumber) VALUES (%s, %s, %s, %s, %s, %s)", payment_info_data)
 
-    room_data = [
-        (100, 100.00, 'single', 'available', 1),
-        (101, 120.00, 'double', 'available', 1),
-        (199, 150.00, 'triple', 'unavailable', 1),
-        (200, 180.00, 'quadruple', 'available', 2),
-        (201, 90.00, 'single', 'available', 2),
-        (299, 110.00, 'double', 'unavailable', 2),
-        (300, 200.00, 'quadruple', 'available', 3),
-        (301, 170.00, 'triple', 'unavailable', 3),
-        (399, 95.00, 'single', 'available', 3),
-        (400, 125.00, 'double', 'available', 4)
-    ]
-    cursor.executemany("INSERT INTO room (roomNumber, price, type, availability, floor) VALUES (%s, %s, %s, %s, %s)", room_data)
+    # room_data = [
+        # (100, 100.00, 'single', 'available', 1),
+        # (101, 120.00, 'double', 'available', 1),
+        # (199, 150.00, 'triple', 'unavailable', 1),
+        # (200, 180.00, 'quadruple', 'available', 2),
+        # (201, 90.00, 'single', 'available', 2),
+        # (299, 110.00, 'double', 'unavailable', 2),
+        # (300, 200.00, 'quadruple', 'available', 3),
+        # (301, 170.00, 'triple', 'unavailable', 3),
+        # (399, 95.00, 'single', 'available', 3),
+        # (400, 125.00, 'double', 'available', 4)
+    # ]
+    # cursor.executemany("INSERT INTO room (roomNumber, price, type, availability, floor) VALUES (%s, %s, %s, %s, %s)", room_data)
 
-    ski_pass_data = [
-        (50.00, '2025-05-10 08:00:00', '2025-05-12 18:00:00', 1),  # 2 days
-        (75.00, '2025-05-15 08:00:00', '2025-05-18 18:00:00', 2),  # 3 days
-        (100.00, '2025-06-01 08:00:00', '2025-06-05 18:00:00', 2), # 4 days
-        (120.00, '2025-06-10 08:00:00', '2025-06-15 18:00:00', 1), # 5 days
-        (150.00, '2025-07-01 08:00:00', '2025-07-07 18:00:00', 3), # 6 days
-        (200.00, '2025-07-15 08:00:00', '2025-07-22 18:00:00', 4), # 7 days
-        (250.00, '2025-08-01 08:00:00', '2025-08-10 18:00:00', 5), # 9 days
-        (300.00, '2025-08-15 08:00:00', '2025-08-25 18:00:00', 6), # 10 days
-        (350.00, '2025-09-01 08:00:00', '2025-09-12 18:00:00', 7), # 11 days
-        (400.00, '2025-09-15 08:00:00', '2025-09-30 18:00:00', 8)  # 15 days
-    ]
-    cursor.executemany("INSERT INTO skiPass (price, startDate, endDate, resortID) VALUES (%s, %s, %s, %s)", ski_pass_data)
+    # ski_pass_data = [
+    #     (50.00, '2025-05-10 08:00:00', '2025-05-12 18:00:00', 1),  
+    #     (75.00, '2025-05-15 08:00:00', '2025-05-18 18:00:00', 2),  
+    #     (100.00, '2025-06-01 08:00:00', '2025-06-05 18:00:00', 2), 
+    #     (120.00, '2025-06-10 08:00:00', '2025-06-15 18:00:00', 1), 
+    #     (150.00, '2025-07-01 08:00:00', '2025-07-07 18:00:00', 3), 
+    #     (200.00, '2025-07-15 08:00:00', '2025-07-22 18:00:00', 4), 
+    #     (250.00, '2025-08-01 08:00:00', '2025-08-10 18:00:00', 5), 
+    #     (300.00, '2025-08-15 08:00:00', '2025-08-25 18:00:00', 6),
+    #     (350.00, '2025-09-01 08:00:00', '2025-09-12 18:00:00', 7),
+    #     (400.00, '2025-09-15 08:00:00', '2025-09-30 18:00:00', 8)
+    # ]
+    # cursor.executemany("INSERT INTO skiPass (price, startDate, endDate, resortID) VALUES (%s, %s, %s, %s)", ski_pass_data)
 
-    ski_resort_data = [
-        ("Alpine Meadows", 45.50, "California, USA", "Intermediate", 13, 60),
-        ("Snowbird", 50.75, "Utah, USA", "Advanced", 15, 85),
-        ("Whistler Blackcomb", 82.30, "British Columbia, Canada", "Expert", 25, 200),
-        ("Aspen Snowmass", 55.20, "Colorado, USA", "Intermediate", 21, 96),
-        ("Zermatt", 70.00, "Valais, Switzerland", "Expert", 18, 150),
-        ("Chamonix", 65.40, "Haute-Savoie, France", "Advanced", 20, 120),
-        ("Cortina d'Ampezzo", 40.25, "Veneto, Italy", "Intermediate", 12, 50),
-        ("Niseko", 38.10, "Hokkaido, Japan", "Beginner", 10, 40),
-        ("Banff Sunshine", 48.60, "Alberta, Canada", "Advanced", 14, 75),
-        ("St. Anton", 60.80, "Tyrol, Austria", "Expert", 22, 140)
-    ]
-    cursor.executemany("INSERT INTO skiResort (name, size, location, difficultyLevel, skiLiftsCount, slopesCount) VALUES (%s, %s, %s, %s, %s, %s)", ski_resort_data)
+    # ski_resort_data = [
+    #     ("Alpine Meadows", 45.50, "California, USA", "Intermediate", 13, 60),
+    #     ("Snowbird", 50.75, "Utah, USA", "Advanced", 15, 85),
+    #     ("Whistler Blackcomb", 82.30, "British Columbia, Canada", "Expert", 25, 200),
+    #     ("Aspen Snowmass", 55.20, "Colorado, USA", "Intermediate", 21, 96),
+    #     ("Zermatt", 70.00, "Valais, Switzerland", "Expert", 18, 150),
+    #     ("Chamonix", 65.40, "Haute-Savoie, France", "Advanced", 20, 120),
+    #     ("Cortina d'Ampezzo", 40.25, "Veneto, Italy", "Intermediate", 12, 50),
+    #     ("Niseko", 38.10, "Hokkaido, Japan", "Beginner", 10, 40),
+    #     ("Banff Sunshine", 48.60, "Alberta, Canada", "Advanced", 14, 75),
+    #     ("St. Anton", 60.80, "Tyrol, Austria", "Expert", 22, 140)
+    # ]
+    # cursor.executemany("INSERT INTO skiResort (name, size, location, difficultyLevel, skiLiftsCount, slopesCount) VALUES (%s, %s, %s, %s, %s, %s)", ski_resort_data)
 
-    package_data = [
-        ('Package 1', 'Description of Package 1', 660.34, 5),
-        ('Package 2', 'Description of Package 2', 1196.66, 7),
-        ('Package 3', 'Description of Package 3', 287.4, 3),
-        ('Package 4', 'Description of Package 4', 1247.75, 5),
-        ('Package 5', 'Description of Package 5', 537.84, 2),
-        ('Package 6', 'Description of Package 6', 1035.5, 5),
-        ('Package 7', 'Description of Package 7', 553.64, 3),
-        ('Package 8', 'Description of Package 8', 644.21, 3),
-        ('Package 9', 'Description of Package 9', 593.46, 2),
-        ('Package 10', 'Description of Package 10', 720.74, 3)
-    ]
-    cursor.executemany("INSERT INTO package (name, description, price, roomID, skiPassID) VALUES (%s, %s, %s, %s, %s)", package_data)
+    # package_data = [
+    #     ('Package 1', 'Description of Package 1', 660.34, 5),
+    #     ('Package 2', 'Description of Package 2', 1196.66, 7),
+    #     ('Package 3', 'Description of Package 3', 287.4, 3),
+    #     ('Package 4', 'Description of Package 4', 1247.75, 5),
+    #     ('Package 5', 'Description of Package 5', 537.84, 2),
+    #     ('Package 6', 'Description of Package 6', 1035.5, 5),
+    #     ('Package 7', 'Description of Package 7', 553.64, 3),
+    #     ('Package 8', 'Description of Package 8', 644.21, 3),
+    #     ('Package 9', 'Description of Package 9', 593.46, 2),
+    #     ('Package 10', 'Description of Package 10', 720.74, 3)
+    # ]
+    # cursor.executemany("INSERT INTO package (name, description, price, roomID, skiPassID) VALUES (%s, %s, %s, %s, %s)", package_data)
 
-    transport_data = [
-        ('shuttle', 15.00, "Mon-Fri: 08:00-18:00, Sat-Sun: 09:00-17:00"),
-        ('train', 25.00, "Daily: 06:00-22:00"),
-        ('helicopter', 150.00, "On-Demand: 08:00-20:00"),
-        ('snowmobile', 50.00, "Mon-Fri: 07:00-19:00"),
-        ('shuttle', 18.00, "Sat-Sun: 09:00-21:00"),
-        ('train', 22.00, "Mon-Fri: 05:30-23:30"),
-        ('helicopter', 175.00, "Daily: 08:00-18:00"),
-        ('snowmobile', 55.00, "Weekends: 06:00-20:00"),
-        ('shuttle', 20.00, "Daily: 07:00-22:00"),
-        ('train', 30.00, "Daily: 04:30-00:00")
-    ]
-    cursor.executemany("INSERT INTO table (type, price, timetable) VALUES (%s, %s, %s)", transport_data)
+    # transport_data = [
+    #     ('shuttle', 15.00, "Mon-Fri: 08:00-18:00, Sat-Sun: 09:00-17:00"),
+    #     ('train', 25.00, "Daily: 06:00-22:00"),
+    #     ('helicopter', 150.00, "On-Demand: 08:00-20:00"),
+    #     ('snowmobile', 50.00, "Mon-Fri: 07:00-19:00"),
+    #     ('shuttle', 18.00, "Sat-Sun: 09:00-21:00"),
+    #     ('train', 22.00, "Mon-Fri: 05:30-23:30"),
+    #     ('helicopter', 175.00, "Daily: 08:00-18:00"),
+    #     ('snowmobile', 55.00, "Weekends: 06:00-20:00"),
+    #     ('shuttle', 20.00, "Daily: 07:00-22:00"),
+    #     ('train', 30.00, "Daily: 04:30-00:00")
+    # ]
+    # cursor.executemany("INSERT INTO table (type, price, timetable) VALUES (%s, %s, %s)", transport_data)
 
-    package_transport_data = [
-        (5, 5),
-        (8, 4),
-        (4, 3),
-        (9, 9),
-        (7, 10),
-        (8, 10),
-        (5, 10),
-        (4, 5),
-        (1, 7),
-        (8, 3)
-    ]
-    cursor.executemany("INSERT INTO table (attr1, attr2) VALUES (%s, %s)", package_transport_data)
+    # package_transport_data = [
+    #     (5, 5),
+    #     (8, 4),
+    #     (4, 3),
+    #     (9, 9),
+    #     (7, 10),
+    #     (8, 10),
+    #     (5, 10),
+    #     (4, 5),
+    #     (1, 7),
+    #     (8, 3)
+    # ]
+    # cursor.executemany("INSERT INTO table (attr1, attr2) VALUES (%s, %s)", package_transport_data)
 
-    # (hotelID, roomID, customerID, packageID, startDate, endDate)
-    reservation_data = [
-        (1, 1, 1, 1, '2025-01-10', '2025-01-17'),
-        (2, 2, 2, 2, '2025-02-05', '2025-02-12'),
-        (3, 3, 3, 3, '2025-01-20', '2025-01-25'),
-        (4, 4, 4, 4, '2025-01-15', '2025-01-22'),
-        (5, 5, 5, 5, '2025-02-01', '2025-02-08'),
-        (1, 6, 6, 6, '2025-03-10', '2025-03-17'),
-        (2, 7, 7, 7, '2025-03-15', '2025-03-22'),
-        (3, 8, 8, 8, '2025-01-05', '2025-01-12'),
-        (4, 9, 9, 9, '2025-02-10', '2025-02-17'),
-        (5, 10, 10, 10, '2025-03-01', '2025-03-08'),
-    ]
-    cursor.executemany("INSERT INTO reservation (hotelID, roomID, customerID, packageID, startDate, endDate) VALUES (%s, %s, %s, %s, %s, %s)", reservation_data)
+    # reservation_data = [
+    #     (1, 1, 1, 1, '2025-01-10', '2025-01-17'),
+    #     (2, 2, 2, 2, '2025-02-05', '2025-02-12'),
+    #     (3, 3, 3, 3, '2025-01-20', '2025-01-25'),
+    #     (4, 4, 4, 4, '2025-01-15', '2025-01-22'),
+    #     (5, 5, 5, 5, '2025-02-01', '2025-02-08'),
+    #     (1, 6, 6, 6, '2025-03-10', '2025-03-17'),
+    #     (2, 7, 7, 7, '2025-03-15', '2025-03-22'),
+    #     (3, 8, 8, 8, '2025-01-05', '2025-01-12'),
+    #     (4, 9, 9, 9, '2025-02-10', '2025-02-17'),
+    #     (5, 10, 10, 10, '2025-03-01', '2025-03-08'),
+    # ]
+    # cursor.executemany("INSERT INTO reservation (hotelID, roomID, customerID, packageID, startDate, endDate) VALUES (%s, %s, %s, %s, %s, %s)", reservation_data)
+    pass
 
 # Checking if the SkiHotelDB exists and creating it if it does not.
 cursor.execute("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'SkiHotelDB';")
 if cursor.fetchone():
     cursor.execute("USE SkiHotelDB;")
     create_tables(cursor)
-    # enter_data(cursor)
+    enter_data(cursor)
     conn.commit()
 
     print("\nSuccessfully created tables in SkiHotelDB Database if they did not exist\n")
@@ -294,7 +295,7 @@ else:
     cursor.execute("CREATE DATABASE SkiHotelDB;")
     cursor.execute("USE SkiHotelDB;")
     create_tables(cursor)
-    # enter_data(cursor)
+    enter_data(cursor)
     conn.commit()
 
     print("\nSuccessfully created the SkiHotelDB Database and created required tables if they did not exist\n")
