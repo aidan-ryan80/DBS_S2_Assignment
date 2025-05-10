@@ -2,7 +2,7 @@ USE SkiHotelDB;
 
 -- Creating the tables in SkiHotelDB Database
 CREATE TABLE IF NOT EXISTS hotel (
-    hotelID INT PRIMARY KEY AUTO_INCREMENT,
+    hotelID INT PRIMARY KEY DEFAULT 1,
     address VARCHAR(100) NOT NULL, 
     name VARCHAR(100) NOT NULL
 );
@@ -106,26 +106,33 @@ BEGIN
     SET NEW.price = room_price + skiPass_price;
 END$$
 
+CREATE TRIGGER trg_add_transport_price
+AFTER INSERT ON packageTransport
+FOR EACH ROW
+BEGIN
+    UPDATE package
+    SET NEW.price = price + (
+        SELECT price
+        FROM transport
+        WHERE transportID = NEW.transportID
+    )
+    WHERE packageID = NEW.packageID;
+END$$
+
+CREATE TRIGGER trg_subtract_transport_price
+AFTER DELETE ON packageTransport
+FOR EACH ROW
+BEGIN
+    UPDATE package
+    SET price = price - (
+        SELECT price
+        FROM transport
+        WHERE transportID = OLD.transportID
+    )
+    WHERE packageID = OLD.packageID;
+END$$
+
 DELIMITER ;
-
--- DELIMITER $$
-
--- CREATE TRIGGER trg_set_package_price
--- AFTER INSERT ON package
--- FOR EACH ROW
--- BEGIN
---     DECLARE room_price DECIMAL(10, 2);
-    
---     -- Get the price of the room
---     SELECT price INTO room_price
---     FROM room
---     WHERE roomNumber = NEW.roomID;
-
---     -- Set the initial price (room price + ski pass price)
---     UPDATE package
---     SET price = room_price
---     WHERE packageID = NEW.packageID;
--- END$$
 
 -- DELIMITER ;
 
@@ -199,8 +206,8 @@ CREATE TABLE IF NOT EXISTS reservation (
     paymentStatus ENUM('payed', 'unpayed', 'failed') NOT NULL,
     checkInDate DATE NOT NULL,
     checkOutDate DATE NOT NULL,
-    totalCost DECIMAL(10, 2) NOT NULL CHECK (totalCost > 0),
-    hotelID INT UNIQUE,
+    totalCost DECIMAL(10, 2) CHECK (totalCost > 0),
+    hotelID INT,
     customerID INT,
     packageID INT DEFAULT NULL,
     roomID SMALLINT(3),
@@ -210,41 +217,41 @@ CREATE TABLE IF NOT EXISTS reservation (
     FOREIGN KEY (roomID) REFERENCES room(roomNumber)
 );
 
-DELIMITER $$
+-- DELIMITER $$
 
-CREATE TRIGGER set_reservation_price
-AFTER INSERT ON reservation
-FOR EACH ROW
-BEGIN
-    DECLARE room_price DECIMAL(10, 2);
-    DECLARE package_price DECIMAL(10, 2);
+-- CREATE TRIGGER set_reservation_price
+-- AFTER INSERT ON reservation
+-- FOR EACH ROW
+-- BEGIN
+--     DECLARE room_price DECIMAL(10, 2);
+--     DECLARE package_price DECIMAL(10, 2);
 
-    -- Fetch room price from room table based on roomID
-    SELECT price INTO room_price
-    FROM room
-    WHERE roomNumber = NEW.roomID;
+--     -- Fetch room price from room table based on roomID
+--     SELECT price INTO room_price
+--     FROM room
+--     WHERE roomNumber = NEW.roomID;
 
-    -- Check if packageID is not null
-    IF NEW.packageID IS NOT NULL THEN
-        -- Fetch the price from the package table if a package is associated
-        SELECT price INTO package_price
-        FROM package
-        WHERE packageID = NEW.packageID;
+--     -- Check if packageID is not null
+--     IF NEW.packageID IS NOT NULL THEN
+--         -- Fetch the price from the package table if a package is associated
+--         SELECT price INTO package_price
+--         FROM package
+--         WHERE packageID = NEW.packageID;
 
-        -- If a package is associated, use the package price
-        UPDATE reservation
-        SET totalCost = package_price
-        WHERE reservationID = NEW.reservationID;
-    ELSE
-        -- If no package, use the room price
-        UPDATE reservation
-        SET totalCost = room_price
-        WHERE reservationID = NEW.reservationID;
-    END IF;
+--         -- If a package is associated, use the package price
+--         UPDATE reservation
+--         SET totalCost = package_price
+--         WHERE reservationID = NEW.reservationID;
+--     ELSE
+--         -- If no package, use the room price
+--         UPDATE reservation
+--         SET totalCost = room_price
+--         WHERE reservationID = NEW.reservationID;
+--     END IF;
 
-END$$
+-- END$$
 
-DELIMITER ;
+-- DELIMITER ;
 
 
 -- Could be used for the the reservation table:
