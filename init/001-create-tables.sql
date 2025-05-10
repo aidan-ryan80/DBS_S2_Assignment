@@ -134,72 +134,6 @@ END$$
 
 DELIMITER ;
 
--- DELIMITER ;
-
--- CREATE TRIGGER trg_add_transport_price_to_package
--- AFTER INSERT ON packageTransport
--- FOR EACH ROW
--- BEGIN
---     DECLARE transport_price DECIMAL(10, 2);
---     DECLARE transport_count INT;
-
---     -- Count the number of transports associated with the package
---     SELECT COUNT(*) INTO transport_count
---     FROM packageTransport
---     WHERE packageID = NEW.packageID;
-
---     -- If there's exactly one transport, get its price
---     IF transport_count = 1 THEN
---         SELECT price INTO transport_price
---         FROM transport
---         WHERE transportID = NEW.transportID;
---         UPDATE package
---         SET price = price + transport_price
---         WHERE packageID = NEW.packageID;
-    
---     -- If there are multiple transports, calculate the average price
---     ELSE
---         SELECT AVG(price) INTO transport_price
---         FROM transport
---         WHERE transportID IN (SELECT transportID FROM packageTransport WHERE packageID = NEW.packageID);
---         UPDATE package
---         SET price = price + transport_price
---         WHERE packageID = NEW.packageID;
---     END IF$$
--- END$$
-
--- CREATE TRIGGER trg_remove_transport_price_from_package
--- AFTER DELETE ON packageTransport
--- FOR EACH ROW
--- BEGIN
---     DECLARE transport_price DECIMAL(10, 2);
---     DECLARE transport_count INT;
-
---     -- Count the number of transports associated with the package
---     SELECT COUNT(*) INTO transport_count
---     FROM packageTransport
---     WHERE packageID = OLD.packageID;
-
---     -- If there's exactly one transport, subtract its price
---     IF transport_count = 1 THEN
---         SELECT price INTO transport_price
---         FROM transport
---         WHERE transportID = OLD.transportID;
---         UPDATE package
---         SET price = price - transport_price
---         WHERE packageID = OLD.packageID;
-    
---     -- If there are multiple transports, calculate the average price and subtract it
---     ELSE
---         SELECT AVG(price) INTO transport_price
---         FROM transport
---         WHERE transportID IN (SELECT transportID FROM packageTransport WHERE packageID = OLD.packageID);
---         UPDATE package
---         SET price = price - transport_price
---         WHERE packageID = OLD.packageID;
---     END IF;
--- END;
-
 CREATE TABLE IF NOT EXISTS reservation (
     reservationID INT PRIMARY KEY AUTO_INCREMENT,
     status ENUM('pending', 'confirmed', 'cancelled', 'completed', 'no_show', 'expired', 'failed') NOT NULL,
@@ -219,39 +153,49 @@ CREATE TABLE IF NOT EXISTS reservation (
 
 -- DELIMITER $$
 
--- CREATE TRIGGER set_reservation_price
--- AFTER INSERT ON reservation
+-- CREATE TRIGGER trg_set_reservation_price
+-- BEFORE INSERT ON reservation
 -- FOR EACH ROW
 -- BEGIN
---     DECLARE room_price DECIMAL(10, 2);
---     DECLARE package_price DECIMAL(10, 2);
+--     DECLARE package_price DECIMAL(10,2);
+--     DECLARE room_price
 
---     -- Fetch room price from room table based on roomID
---     SELECT price INTO room_price
---     FROM room
---     WHERE roomNumber = NEW.roomID;
+--     SELECT totalCost INTO package_price FROM package WHERE packageID = NEW.packageID;
 
---     -- Check if packageID is not null
---     IF NEW.packageID IS NOT NULL THEN
---         -- Fetch the price from the package table if a package is associated
---         SELECT price INTO package_price
---         FROM package
---         WHERE packageID = NEW.packageID;
-
---         -- If a package is associated, use the package price
---         UPDATE reservation
---         SET totalCost = package_price
---         WHERE reservationID = NEW.reservationID;
---     ELSE
---         -- If no package, use the room price
---         UPDATE reservation
---         SET totalCost = room_price
---         WHERE reservationID = NEW.reservationID;
---     END IF;
-
+--     SET NEW.totalCost = package_price;
 -- END$$
 
--- DELIMITER ;
+DELIMITER $$
+
+CREATE TRIGGER set_reservation_price
+BEFORE INSERT ON reservation
+FOR EACH ROW
+BEGIN
+    DECLARE room_price DECIMAL(10, 2);
+    DECLARE package_price DECIMAL(10, 2);
+
+    -- Fetch room price from room table based on roomID
+    SELECT price INTO room_price
+    FROM room
+    WHERE roomNumber = NEW.roomID;
+
+    -- Check if packageID is not null
+    IF NEW.packageID IS NOT NULL THEN
+        -- Fetch the price from the package table if a package is associated
+        SELECT price INTO package_price
+        FROM package
+        WHERE packageID = NEW.packageID;
+
+        -- If a package is associated, use the package price
+        SET NEW.totalCost = package_price;
+    ELSE
+        -- If no package, use the room price
+        SET NEW.totalCost = room_price;
+    END IF;
+
+END$$
+
+DELIMITER ;
 
 
 -- Could be used for the the reservation table:
