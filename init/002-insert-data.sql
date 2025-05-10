@@ -13,7 +13,27 @@ VALUES
     ('sarah.miller@example.com', '5566778899', 'Sarah Miller', '22', '159 Cedar St'),
     ('chris.moore@example.com', '6677889900', 'Chris Moore', '33', '753 Walnut St'),
     ('laura.taylor@example.com', '7788990011', 'Laura Taylor', '29', '852 Chestnut St'),
-    ('daniel.anderson@example.com', '8899001122', 'Daniel Anderson', '31', '951 Spruce St');
+    ('daniel.anderson@example.com', '8899001122', 'Daniel Anderson', '31', '951 Spruce St'),
+    ('oliver.james@example.com', '9001122334', 'Oliver James', '26', '101 Birchwood Ave'),
+    ('emma.watson@example.com', '9112233445', 'Emma Watson', '24', '202 Maplewood St'),
+    ('liam.jones@example.com', '9223344556', 'Liam Jones', '32', '303 Cedarwood Dr'),
+    ('sophia.brown@example.com', '9334455667', 'Sophia Brown', '30', '404 Pinewood Ln'),
+    ('noah.davis@example.com', '9445566778', 'Noah Davis', '28', '505 Oakwood Ct'),
+    ('ava.martin@example.com', '9556677889', 'Ava Martin', '27', '606 Elmwood Rd'),
+    ('william.moore@example.com', '9667788990', 'William Moore', '34', '707 Walnut St'),
+    ('mia.taylor@example.com', '9778899001', 'Mia Taylor', '23', '808 Chestnut Blvd'),
+    ('james.anderson@example.com', '9889900112', 'James Anderson', '29', '909 Spruce Ave'),
+    ('isabella.thomas@example.com', '9990011223', 'Isabella Thomas', '31', '1001 Redwood Dr'),
+    ('lucas.jackson@example.com', '1001122334', 'Lucas Jackson', '36', '1102 Cypress Ln'),
+    ('amelia.white@example.com', '1012233445', 'Amelia White', '25', '1203 Willow St'),
+    ('elijah.harris@example.com', '1023344556', 'Elijah Harris', '33', '1304 Aspen Ct'),
+    ('harper.clark@example.com', '1034455667', 'Harper Clark', '22', '1405 Magnolia Rd'),
+    ('mason.lewis@example.com', '1045566778', 'Mason Lewis', '37', '1506 Sycamore Blvd'),
+    ('ella.robinson@example.com', '1056677889', 'Ella Robinson', '26', '1607 Poplar Ave'),
+    ('logan.walker@example.com', '1067788990', 'Logan Walker', '30', '1708 Birchwood Dr'),
+    ('scarlett.young@example.com', '1078899001', 'Scarlett Young', '28', '1809 Maplewood Ln'),
+    ('ethan.king@example.com', '1089900112', 'Ethan King', '35', '1901 Cedarwood Ct'),
+    ('grace.hall@example.com', '1090011223', 'Grace Hall', '24', '2002 Pinewood St');
 
 INSERT INTO paymentInfo (customerID, billingAddress, cardHolderName, expirationDate, cardIssuer, cardNumber)
 VALUES
@@ -26,7 +46,27 @@ VALUES
     (7, '159 Cedar St', 'Sarah Miller', '2024-07-05', 'American Express', '340000000000567'),
     (8, '753 Walnut St', 'Chris Moore', '2027-02-14', 'Discover', '6011000000007890'),
     (9, '852 Chestnut St', 'Laura Taylor', '2025-08-19', 'Visa', '4111111111113456'),
-    (10, '951 Spruce St', 'Daniel Anderson', '2026-04-30', 'MasterCard', '5500000000007890');
+    (10, '951 Spruce St', 'Daniel Anderson', '2026-04-30', 'MasterCard', '5500000000007890'),
+    (11, '101 Birchwood Ave', 'Oliver James', '2026-12-31', 'Visa', '4111111111112222'),
+    (12, '202 Maplewood St', 'Emma Watson', '2027-06-30', 'MasterCard', '5500000000003333'),
+    (13, '303 Cedarwood Dr', 'Liam Jones', '2025-09-15', 'American Express', '340000000000444'),
+    (14, '404 Pinewood Ln', 'Sophia Brown', '2028-03-20', 'Discover', '6011000000005555'),
+    (15, '505 Oakwood Ct', 'Noah Davis', '2026-11-10', 'Visa', '4111111111116666'),
+    (16, '606 Elmwood Rd', 'Ava Martin', '2027-01-25', 'MasterCard', '5500000000007777'),
+    (17, '707 Walnut St', 'William Moore', '2025-07-05', 'American Express', '340000000000888'),
+    (18, '808 Chestnut Blvd', 'Mia Taylor', '2028-02-14', 'Discover', '6011000000009999'),
+    (19, '909 Spruce Ave', 'James Anderson', '2026-08-19', 'Visa', '4111111111110000'),
+    (20, '1001 Redwood Dr', 'Isabella Thomas', '2027-04-30', 'MasterCard', '5500000000001111'),
+    (21, '1102 Cypress Ln', 'Lucas Jackson', '2026-12-31', 'Visa', '4111111111113333'),
+    (22, '1203 Willow St', 'Amelia White', '2027-06-30', 'MasterCard', '5500000000004444'),
+    (23, '1304 Aspen Ct', 'Elijah Harris', '2025-09-15', 'American Express', '340000000000555'),
+    (24, '1405 Magnolia Rd', 'Harper Clark', '2028-03-20', 'Discover', '6011000000006666'),
+    (25, '1506 Sycamore Blvd', 'Mason Lewis', '2026-11-10', 'Visa', '4111111111117777'),
+    (26, '1607 Poplar Ave', 'Ella Robinson', '2027-01-25', 'MasterCard', '5500000000008888'),
+    (27, '1708 Birchwood Dr', 'Logan Walker', '2025-07-05', 'American Express', '340000000000999'),
+    (28, '1809 Maplewood Ln', 'Scarlett Young', '2028-02-14', 'Discover', '6011000000000000'),
+    (29, '1901 Cedarwood Ct', 'Ethan King', '2026-08-19', 'Visa', '4111111111115555'),
+    (30, '2002 Pinewood St', 'Grace Hall', '2027-04-30', 'MasterCard', '5500000000002222');
 
 INSERT INTO skiResort (name, size, location, difficultyLevel, skiLiftsCount, slopesCount, businessHours)
 VALUES 
@@ -170,25 +210,36 @@ VALUES
 (101, 100.00, 'single', 'available'),
 (102, 120.00, 'double', 'available'),
 (103, 130.00, 'triple', 'unavailable'),
+(104, 140.00, 'quadruple', 'available'), -- New room
+(105, 150.00, 'single', 'available'),    -- New room
 -- Floor 2
 (201, 150.00, 'single', 'available'),
 (202, 180.00, 'double', 'available'),
 (203, 200.00, 'triple', 'available'),
+(204, 220.00, 'quadruple', 'available'), -- New room
+(205, 240.00, 'single', 'available'),    -- New room
 -- Floor 3
 (301, 200.00, 'single', 'unavailable'),
 (302, 220.00, 'double', 'available'),
 (303, 250.00, 'quadruple', 'available'),
+(304, 270.00, 'triple', 'available'),    -- New room
+(305, 290.00, 'single', 'available'),    -- New room
 -- Floor 4
 (401, 250.00, 'single', 'available'),
 (402, 280.00, 'double', 'unavailable'),
 (403, 300.00, 'triple', 'available'),
+(404, 320.00, 'quadruple', 'available'), -- New room
+(405, 340.00, 'single', 'available'),    -- New room
 -- Floor 5
 (501, 350.00, 'single', 'available'),
 (502, 380.00, 'double', 'unavailable'),
-(503, 400.00, 'quadruple', 'available');
+(503, 400.00, 'quadruple', 'available'),
+(504, 420.00, 'triple', 'available'),    -- New room
+(505, 440.00, 'single', 'available');    -- New room
 
 -- Insert into package
-INSERT INTO package (name, description, price, roomID, skiPassID) VALUES 
+INSERT INTO package (name, description, price, roomID, skiPassID) 
+VALUES 
 ("Alpine Starter", "1 day access to Alpine Meadows with shuttle transport", NULL, 101, 1),
 ("Snowbird Explorer", "3-day pass at Snowbird with shuttle and snowmobile access", NULL, 103, 10),
 ("Whistler Elite", "Luxury heli tour with 2-day pass", NULL, 301, 16),
@@ -201,7 +252,8 @@ INSERT INTO package (name, description, price, roomID, skiPassID) VALUES
 ("St. Anton Tour", "Train to St. Anton with 1-day ski pass", NULL, 302, 64);
 
 -- Link packages with transport
-INSERT INTO packageTransport (packageID, transportID) VALUES 
+INSERT INTO packageTransport (packageID, transportID) 
+VALUES 
 (1, 1),
 (2, 2),
 (2, 3),
@@ -219,13 +271,42 @@ INSERT INTO packageTransport (packageID, transportID) VALUES
 -- Insert into reservation
 INSERT INTO reservation (status, paymentStatus, checkInDate, checkOutDate, totalCost, hotelID, customerID, packageID, roomID)
 VALUES 
-    ('expired', 'unpayed', '2025-06-10', '2025-06-17', NULL, 1, 6, DEFAULT, 203),
-    ('failed', 'unpayed', '2025-07-01', '2025-07-08', NULL, 1, 7, DEFAULT, 501),
-    ('confirmed', 'unpayed', '2025-08-10', '2025-08-16', NULL, 1, 8, DEFAULT, 502),
-    ('pending', 'failed', '2025-09-05', '2025-09-12', NULL, 1, 9, DEFAULT, 503),
-    ('cancelled', 'unpayed', '2025-10-01', '2025-10-07', NULL, 1, 10, DEFAULT, 302),
-    ('pending', 'payed', '2025-05-01', '2025-05-08', NULL, 1, 1, 1, 101),
-    ('confirmed', 'payed', '2025-06-05', '2025-06-11', NULL, 1, 2, 2, 103),
-    ('cancelled', 'failed', '2025-07-20', '2025-07-26', NULL, 1, 3, 3, 102),
-    ('completed', 'payed', '2025-08-15', '2025-08-21', NULL, 1, 4, 4, 201),
-    ('no_show', 'unpayed', '2025-09-12', '2025-09-17', NULL, 1, 5, 5, 202);
+    ('pending', 'unpayed', '2025-06-10', '2025-06-13', NULL, 1, 6, DEFAULT, 203), -- 3 days
+    ('pending', 'unpayed', '2025-07-01', '2025-07-04', NULL, 1, 7, DEFAULT, 501), -- 3 days
+    ('confirmed', 'unpayed', '2025-08-10', '2025-08-12', NULL, 1, 8, DEFAULT, 502), -- 2 days
+    ('completed', 'failed', '2025-09-05', '2025-09-08', NULL, 1, 9, DEFAULT, 503), -- 3 days
+    ('cancelled', 'unpayed', '2025-10-01', '2025-10-07', NULL, 1, 10, DEFAULT, 302), -- 6 days
+    ('confirmed', 'payed', '2025-01-10', '2025-01-15', NULL, 1, 11, DEFAULT, 101), -- 5 days
+    ('pending', 'unpayed', '2025-02-05', '2025-02-10', NULL, 1, 12, DEFAULT, 102), -- 5 days
+    ('cancelled', 'unpayed', '2025-03-01', '2025-03-06', NULL, 1, 13, DEFAULT, 103), -- 5 days
+    ('completed', 'payed', '2025-04-10', '2025-04-15', NULL, 1, 14, DEFAULT, 104), -- 5 days
+    ('no_show', 'unpayed', '2025-05-01', '2025-05-07', NULL, 1, 15, DEFAULT, 105), -- 6 days
+    ('confirmed', 'payed', '2025-06-15', '2025-06-20', NULL, 1, 16, DEFAULT, 201), -- 5 days
+    ('pending', 'unpayed', '2025-07-10', '2025-07-15', NULL, 1, 17, DEFAULT, 202), -- 5 days
+    ('cancelled', 'unpayed', '2025-08-05', '2025-08-10', NULL, 1, 18, DEFAULT, 203), -- 5 days
+    ('completed', 'payed', '2026-02-05', '2026-02-10', NULL, 1, 24, DEFAULT, 304), -- 5 days
+    ('no_show', 'unpayed', '2026-03-01', '2026-03-06', NULL, 1, 25, DEFAULT, 305), -- 5 days
+    ('pending', 'unpayed', '2026-04-10', '2026-04-15', NULL, 1, 26, DEFAULT, 402), -- 5 days
+    ('cancelled', 'unpayed', '2026-05-01', '2026-05-06', NULL, 1, 27, DEFAULT, 403), -- 5 days
+    ('completed', 'payed', '2026-05-10', '2026-05-15', NULL, 1, 28, DEFAULT, 404), -- 5 days
+    ('no_show', 'unpayed', '2026-06-01', '2026-06-06', NULL, 1, 29, DEFAULT, 405), -- 5 days
+    ('confirmed', 'payed', '2026-04-01', '2026-04-07', NULL, 1, 30, DEFAULT, 401), -- 6 days
+    ('pending', 'payed', '2025-05-01', '2025-05-08', NULL, 1, 1, 1, 101), -- 7 days
+    ('confirmed', 'payed', '2025-06-05', '2025-06-11', NULL, 1, 2, 2, 103), -- 6 days
+    ('cancelled', 'failed', '2025-07-20', '2025-07-26', NULL, 1, 3, 3, 102), -- 6 days
+    ('completed', 'payed', '2025-08-15', '2025-08-21', NULL, 1, 4, 4, 201), -- 6 days
+    ('no_show', 'unpayed', '2025-09-12', '2025-09-17', NULL, 1, 5, 5, 202), -- 5 days
+    ('completed', 'payed', '2025-09-01', '2025-09-06', NULL, 1, 19, 3, 204), -- 3 daya
+    ('no_show', 'unpayed', '2025-10-10', '2025-10-15', NULL, 1, 20, 4, 205), -- 5 daya
+    ('confirmed', 'payed', '2025-11-05', '2025-11-10', NULL, 1, 21, 5, 301), -- 5 daya
+    ('pending', 'unpayed', '2025-12-01', '2025-12-06', NULL, 1, 22, 2, 302), -- 2 daya
+    ('cancelled', 'unpayed', '2026-01-10', '2026-01-15', NULL, 1, 23, 1, 303), -- 1 day
+    ('confirmed', 'payed', '2025-01-15', '2025-01-20', NULL, 1, 11, 1, 101), -- 5 days
+    ('pending', 'unpayed', '2025-02-10', '2025-02-15', NULL, 1, 12, 2, 102), -- 5 days
+    ('cancelled', 'unpayed', '2025-03-05', '2025-03-10', NULL, 1, 13, 3, 103), -- 5 days
+    ('completed', 'payed', '2025-04-15', '2025-04-20', NULL, 1, 14, 4, 104), -- 5 days
+    ('no_show', 'unpayed', '2025-05-07', '2025-05-12', NULL, 1, 15, 5, 105), -- 5 days
+    ('confirmed', 'payed', '2025-06-20', '2025-06-25', NULL, 1, 16, 6, 201), -- 5 days
+    ('pending', 'unpayed', '2025-07-15', '2025-07-20', NULL, 1, 17, 7, 202), -- 5 days
+    ('cancelled', 'unpayed', '2025-08-10', '2025-08-15', NULL, 1, 18, 8, 203), -- 5 days
+    ('completed', 'payed', '2025-09-06', '2025-09-11', NULL, 1, 19, 9, 204); -- 5 days

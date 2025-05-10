@@ -132,7 +132,7 @@ DELIMITER ;
 
 CREATE TABLE IF NOT EXISTS reservation (
     reservationID INT PRIMARY KEY AUTO_INCREMENT,
-    status ENUM('pending', 'confirmed', 'cancelled', 'completed', 'no_show', 'expired', 'failed') NOT NULL,
+    status ENUM('pending', 'confirmed', 'cancelled', 'completed', 'no_show') NOT NULL,
     paymentStatus ENUM('payed', 'unpayed', 'failed') NOT NULL,
     checkInDate DATE NOT NULL,
     checkOutDate DATE NOT NULL,
@@ -147,20 +147,6 @@ CREATE TABLE IF NOT EXISTS reservation (
     FOREIGN KEY (roomID) REFERENCES room(roomNumber)
 );
 
--- DELIMITER $$
-
--- CREATE TRIGGER trg_set_reservation_price
--- BEFORE INSERT ON reservation
--- FOR EACH ROW
--- BEGIN
---     DECLARE package_price DECIMAL(10,2);
---     DECLARE room_price
-
---     SELECT totalCost INTO package_price FROM package WHERE packageID = NEW.packageID;
-
---     SET NEW.totalCost = package_price;
--- END$$
-
 DELIMITER $$
 
 CREATE TRIGGER set_reservation_price
@@ -170,66 +156,21 @@ BEGIN
     DECLARE room_price DECIMAL(10, 2);
     DECLARE package_price DECIMAL(10, 2);
 
-    -- Fetch room price from room table based on roomID
+    -- Fetching room price from room table based on roomID
     SELECT price INTO room_price
     FROM room
     WHERE roomNumber = NEW.roomID;
 
-    -- Check if packageID is not null
     IF NEW.packageID IS NOT NULL THEN
-        -- Fetch the price from the package table if a package is associated
         SELECT price INTO package_price
         FROM package
         WHERE packageID = NEW.packageID;
 
-        -- If a package is associated, use the package price
         SET NEW.totalCost = package_price + room_price * DATEDIFF(NEW.checkOutDate, NEW.checkInDate);
     ELSE
-        -- If no package, use the room price
         SET NEW.totalCost = room_price * DATEDIFF(NEW.checkOutDate, NEW.checkInDate);
     END IF;
 
 END$$
 
-CREATE TRIGGER check_valid_ski_pass
-BEFORE INSERT ON reservation
-FOR EACH ROW
-BEGIN
-    DECLARE reservation_days INT;
-    DECLARE ski_pass_days INT;
-
-    IF NEW.packgeID IS NOT NULL THEN
-
-    SET reservation_days DATEDIFF(NEW.checkOutDate - NEW.checkInDate)
-
-    SELECT  CASE
-                WHEN sp.passType = 'Day Pass' THEN 1
-                WHEN sp.passType = '2 Day Pass' THEN 2
-                WHEN sp.passType = '3 Day Pass' THEN 3
-                WHEN sp.passType = '4 Day Pass' THEN 4
-                WHEN sp.passType = '5 Day Pass' THEN 5
-                WHEN sp.passType = '6 Day Pass' THEN 6
-                WHEN sp.passType = '7 Day Pass' THEN 7
-            END INTO ski_pass_days
-    FROM package p
-    JOIN skiPass sp ON p.skiPassID = sp.skiPassID
-    WHERE p.packageID = NEW.packageID;
-
-    -- Check if ski pass exceeds reservation duration
-        IF ski_pass_days > reservation_days THEN
-            SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Ski pass duration exceeds reservation duration';
-        END IF;
-
-    END IF;
-END$$
-
 DELIMITER ;
-
-
-
--- Could be used for the the reservation table:
--- startDate DATETIME NOT NULL,
--- endDate DATETIME NOT NULL,
--- validityPeriod INT AS (TIMESTAMPDIFF(DAY, startDate, endDate)) STORED,
--- CHECK (validityPeriod > 0),
