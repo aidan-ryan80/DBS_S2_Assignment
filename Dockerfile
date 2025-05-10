@@ -5,7 +5,6 @@ RUN apt-get update && apt-get install -y \
     libmariadb-dev \
     dos2unix
 
-# ? Do we want to define the root password in the dockerfile?
 ENV MARIADB_ROOT_PASSWORD=rootpass
 
 COPY requirements.txt .
