@@ -216,14 +216,19 @@ INSERT INTO packageTransport (packageID, transportID) VALUES
 (9, 16),
 (10, 18);
 
--- INSERT INTO table_name (column1, column2, column3)
--- VALUES 
---     (value1a, value2a, value3a),
---     (value1b, value2b, value3b),
---     (value1c, value2c, value3c);
+-- Insert into reservation
+INSERT INTO reservation (status, paymentStatus, checkInDate, checkOutDate, totalCost, hotelID, customerID, roomID)
+VALUES 
+    ('expired', 'unpayed', '2025-06-10', '2025-06-17', NULL, 1, 6, 203),
+    ('failed', 'unpayed', '2025-07-01', '2025-07-08', NULL, 1, 7, 501),
+    ('confirmed', 'unpayed', '2025-08-10', '2025-08-16', NULL, 1, 8, 502),
+    ('pending', 'failed', '2025-09-05', '2025-09-12', NULL, 1, 9, 503),
+    ('cancelled', 'unpayed', '2025-10-01', '2025-10-07', NULL, 1, 10, 302);
 
--- INSERT INTO table_name (column1, column2, column3)
--- VALUES 
---     (value1a, value2a, value3a),
---     (value1b, value2b, value3b),
---     (value1c, value2c, value3c);
+INSERT INTO reservation (status, paymentStatus, checkInDate, checkOutDate, totalCost, hotelID, customerID, packageID, roomID)
+VALUES 
+    ('pending', 'payed', '2025-05-01', '2025-05-08', NULL, 1, 1, 1, 101),
+    ('confirmed', 'payed', '2025-06-05', '2025-06-11', NULL, 1, 2, 2, 103),
+    ('cancelled', 'failed', '2025-07-20', '2025-07-26', NULL, 1, 3, 3, 102),
+    ('completed', 'payed', '2025-08-15', '2025-08-21', NULL, 1, 4, 4, 201),
+    ('no_show', 'unpayed', '2025-09-12', '2025-09-17', NULL, 1, 5, 5, 202);

@@ -1,4 +1,3 @@
-CREATE DATABASE SkiHotelDB;
 USE SkiHotelDB;
 
 -- Creating the tables in SkiHotelDB Database
@@ -113,9 +112,6 @@ END;
 
 DELIMITER ;
 
-
-
-
 CREATE TABLE IF NOT EXISTS reservation (
     reservationID INT PRIMARY KEY AUTO_INCREMENT,
     status ENUM('pending', 'confirmed', 'cancelled', 'completed', 'no_show', 'expired', 'failed') NOT NULL,
@@ -125,11 +121,50 @@ CREATE TABLE IF NOT EXISTS reservation (
     totalCost DECIMAL(10, 2) NOT NULL CHECK (totalCost > 0),
     hotelID INT UNIQUE,
     customerID INT,
+    packageID INT DEFAULT NULL,
     roomID SMALLINT(3),
     FOREIGN KEY (hotelID) REFERENCES hotel(hotelID),
     FOREIGN KEY (customerID) REFERENCES customer(customerID),
+    FOREIGN KEY (packageID) REFERENCES package(packageID),
     FOREIGN KEY (roomID) REFERENCES room(roomNumber)
 );
+
+DELIMITER $$
+
+CREATE TRIGGER set_reservation_price
+AFTER INSERT ON reservation
+FOR EACH ROW
+BEGIN
+    DECLARE room_price DECIMAL(10, 2);
+    DECLARE package_price DECIMAL(10, 2);
+
+    -- Fetch room price from room table based on roomID
+    SELECT price INTO room_price
+    FROM room
+    WHERE roomNumber = NEW.roomID;
+
+    -- Check if packageID is not null
+    IF NEW.packageID IS NOT NULL THEN
+        -- Fetch the price from the package table if a package is associated
+        SELECT price INTO package_price
+        FROM package
+        WHERE packageID = NEW.packageID;
+
+        -- If a package is associated, use the package price
+        UPDATE reservation
+        SET totalCost = package_price
+        WHERE reservationID = NEW.reservationID;
+    ELSE
+        -- If no package, use the room price
+        UPDATE reservation
+        SET totalCost = room_price
+        WHERE reservationID = NEW.reservationID;
+    END IF;
+
+END$$
+
+DELIMITER ;
+
 
 -- Could be used for the the reservation table:
 -- startDate DATETIME NOT NULL,
