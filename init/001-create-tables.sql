@@ -111,7 +111,7 @@ AFTER INSERT ON packageTransport
 FOR EACH ROW
 BEGIN
     UPDATE package
-    SET NEW.price = price + (
+    SET price = price + (
         SELECT price
         FROM transport
         WHERE transportID = NEW.transportID
