@@ -183,10 +183,10 @@ BEGIN
         WHERE packageID = NEW.packageID;
 
         -- If a package is associated, use the package price
-        SET NEW.totalCost = package_price;
+        SET NEW.totalCost = package_price + room_price * DATEDIFF(NEW.checkOutDate, NEW.checkInDate);
     ELSE
         -- If no package, use the room price
-        SET NEW.totalCost = room_price;
+        SET NEW.totalCost = room_price * DATEDIFF(NEW.checkOutDate, NEW.checkInDate);
     END IF;
 
 END$$
