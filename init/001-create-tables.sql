@@ -97,13 +97,9 @@ CREATE TRIGGER trg_set_package_price
 BEFORE INSERT ON package
 FOR EACH ROW
 BEGIN
-    DECLARE room_price DECIMAL(10,2);
     DECLARE skiPass_price DECIMAL(10,2);
-
-    SELECT price INTO room_price FROM room WHERE roomNumber = NEW.roomID;
     SELECT price INTO skiPass_price FROM skiPass WHERE skiPassID = NEW.skiPassID;
-
-    SET NEW.price = room_price + skiPass_price;
+    SET NEW.price = skiPass_price;
 END$$
 
 CREATE TRIGGER trg_add_transport_price
@@ -187,10 +183,10 @@ BEGIN
         WHERE packageID = NEW.packageID;
 
         -- If a package is associated, use the package price
-        SET NEW.totalCost = package_price;
+        SET NEW.totalCost = package_price + room_price * DATEDIFF(NEW.checkOutDate, NEW.checkInDate);
     ELSE
         -- If no package, use the room price
-        SET NEW.totalCost = room_price;
+        SET NEW.totalCost = room_price * DATEDIFF(NEW.checkOutDate, NEW.checkInDate);
     END IF;
 
 END$$
