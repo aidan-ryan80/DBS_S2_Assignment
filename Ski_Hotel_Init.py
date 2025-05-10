@@ -75,7 +75,7 @@ def create_tables(cursor) -> None:
         difficultyLevel ENUM('Beginner', 'Intermediate', 'Advanced', 'Expert'),
         skiLiftsCount SMALLINT CHECK (skiLiftsCount > 0),
         slopesCount SMALLINT CHECK (slopesCount > 0),
-        businessHours TEXT;
+        businessHours TEXT
     );
     """)
 
@@ -287,7 +287,7 @@ cursor.execute("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA
 if cursor.fetchone():
     cursor.execute("USE SkiHotelDB;")
     create_tables(cursor)
-    enter_data(cursor)
+    # enter_data(cursor)
     conn.commit()
 
     print("\nSuccessfully created tables in SkiHotelDB Database if they did not exist\n")
@@ -295,7 +295,7 @@ else:
     cursor.execute("CREATE DATABASE SkiHotelDB;")
     cursor.execute("USE SkiHotelDB;")
     create_tables(cursor)
-    enter_data(cursor)
+    # enter_data(cursor)
     conn.commit()
 
     print("\nSuccessfully created the SkiHotelDB Database and created required tables if they did not exist\n")

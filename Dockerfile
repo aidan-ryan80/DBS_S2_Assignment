@@ -5,13 +5,16 @@ RUN apt-get update && apt-get install -y \
     libmariadb-dev \
     dos2unix
 
-#ENV MARIADB_ROOT_PASSWORD=rootpass
+# ? Do we want to define the root password in the dockerfile?
+ENV MARIADB_ROOT_PASSWORD=rootpass
 
 COPY requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY Ski_Hotel_Init.py /docker-entrypoint-initdb.d/Ski_Hotel_Init.py
 COPY run_init_py.sh /docker-entrypoint-initdb.d/run_init_py.sh
+
+EXPOSE 3306
 
 RUN dos2unix /docker-entrypoint-initdb.d/run_init_py.sh && \
     chmod +x /docker-entrypoint-initdb.d/run_init_py.sh

@@ -166,33 +166,32 @@ VALUES
 
 INSERT INTO room (roomNumber, price, type, availability) 
 VALUES
-  -- Floor 1
-  (101, 100.00, 'single', 'available'),
-  (102, 120.00, 'double', 'available'),
-  (103, 130.00, 'triple', 'unavailable'),
-  -- Floor 2
-  (201, 150.00, 'single', 'available'),
-  (202, 180.00, 'double', 'available'),
-  (203, 200.00, 'triple', 'available'),
-  -- Floor 3
-  (301, 200.00, 'single', 'unavailable'),
-  (302, 220.00, 'double', 'available'),
-  (303, 250.00, 'quadruple', 'available'),
-  -- Floor 4
-  (401, 250.00, 'single', 'available'),
-  (402, 280.00, 'double', 'unavailable'),
-  (403, 300.00, 'triple', 'available'),
-  -- Floor 5
-  (501, 350.00, 'single', 'available'),
-  (502, 380.00, 'double', 'unavailable'),
-  (503, 400.00, 'quadruple', 'available');
+-- Floor 1
+(101, 100.00, 'single', 'available'),
+(102, 120.00, 'double', 'available'),
+(103, 130.00, 'triple', 'unavailable'),
+-- Floor 2
+(201, 150.00, 'single', 'available'),
+(202, 180.00, 'double', 'available'),
+(203, 200.00, 'triple', 'available'),
+-- Floor 3
+(301, 200.00, 'single', 'unavailable'),
+(302, 220.00, 'double', 'available'),
+(303, 250.00, 'quadruple', 'available'),
+-- Floor 4
+(401, 250.00, 'single', 'available'),
+(402, 280.00, 'double', 'unavailable'),
+(403, 300.00, 'triple', 'available'),
+-- Floor 5
+(501, 350.00, 'single', 'available'),
+(502, 380.00, 'double', 'unavailable'),
+(503, 400.00, 'quadruple', 'available');
 
-
-INSERT INTO table_name (column1, column2, column3)
-VALUES 
-    (value1a, value2a, value3a),
-    (value1b, value2b, value3b),
-    (value1c, value2c, value3c);
+-- INSERT INTO table_name (column1, column2, column3)
+-- VALUES 
+--     (value1a, value2a, value3a),
+--     (value1b, value2b, value3b),
+--     (value1c, value2c, value3c);
 
 -- INSERT INTO table_name (column1, column2, column3)
 -- VALUES 

@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS skiResort (
     location VARCHAR(255),
     difficultyLevel ENUM('Beginner', 'Intermediate', 'Advanced', 'Expert'),
     skiLiftsCount SMALLINT CHECK (skiLiftsCount > 0),
-    slopesCount SMALLINT CHECK (slopesCount > 0),
+    slopesCount SMALLINT CHECK (slopesCount > 0)
 );
 
 CREATE TABLE IF NOT EXISTS businessHour (
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS businessHour (
 CREATE TABLE IF NOT EXISTS skiPass (
     skiPassID INT AUTO_INCREMENT PRIMARY KEY,
     resortID INT,
-    passType ENUM('Day Pass', '2 Day Pass', '3 Day Pass', '4 Day Pass', '5 Day Pass', '6 Day Pass', '7 Day Pass')
+    passType ENUM('Day Pass', '2 Day Pass', '3 Day Pass', '4 Day Pass', '5 Day Pass', '6 Day Pass', '7 Day Pass'),
     price DECIMAL(10, 2) NOT NULL CHECK (price > 0),
     FOREIGN KEY(resortID) REFERENCES skiResort(resortID)
 );
