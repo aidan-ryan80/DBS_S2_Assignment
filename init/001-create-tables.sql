@@ -43,7 +43,8 @@ CREATE TABLE IF NOT EXISTS skiResort (
     location VARCHAR(255),
     difficultyLevel ENUM('Beginner', 'Intermediate', 'Advanced', 'Expert'),
     skiLiftsCount SMALLINT CHECK (skiLiftsCount > 0),
-    slopesCount SMALLINT CHECK (slopesCount > 0)
+    slopesCount SMALLINT CHECK (slopesCount > 0),
+    businessHours TEXT
 );
 
 CREATE TABLE IF NOT EXISTS businessHour (
@@ -67,7 +68,7 @@ CREATE TABLE IF NOT EXISTS package (
     packageID INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
     description TEXT,
-    price DECIMAL(10, 2) NOT NULL CHECK (price > 0),
+    price DECIMAL(10, 2) CHECK (price > 0),
     roomID SMALLINT(3),
     skiPassID INT,
     FOREIGN KEY(roomID) REFERENCES room(roomNumber),
@@ -90,6 +91,30 @@ CREATE TABLE IF NOT EXISTS packageTransport (
     FOREIGN KEY (packageID) REFERENCES package(packageID) ON DELETE CASCADE,
     FOREIGN KEY (transportID) REFERENCES transport(transportID) ON DELETE CASCADE
 );
+
+DELIMITER $$
+
+CREATE TRIGGER trg_update_package_price_on_transport_delete
+AFTER DELETE ON packageTransport
+FOR EACH ROW
+BEGIN
+    DECLARE transport_price DECIMAL(10, 2);
+    
+    -- Get the price of the transport being removed
+    SELECT price INTO transport_price
+    FROM transport
+    WHERE transportID = OLD.transportID;
+
+    -- Update the total price of the package by subtracting the transport price
+    UPDATE package
+    SET price = price - transport_price
+    WHERE packageID = OLD.packageID;
+END;
+
+DELIMITER ;
+
+
+
 
 CREATE TABLE IF NOT EXISTS reservation (
     reservationID INT PRIMARY KEY AUTO_INCREMENT,

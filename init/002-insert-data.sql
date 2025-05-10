@@ -28,18 +28,18 @@ VALUES
     (9, '852 Chestnut St', 'Laura Taylor', '2025-08-19', 'Visa', '4111111111113456'),
     (10, '951 Spruce St', 'Daniel Anderson', '2026-04-30', 'MasterCard', '5500000000007890');
 
-INSERT INTO skiResort (name, size, location, difficultyLevel, skiLiftsCount, slopesCount)
+INSERT INTO skiResort (name, size, location, difficultyLevel, skiLiftsCount, slopesCount, businessHours)
 VALUES 
-    ("Alpine Meadows", 45.50, "California, USA", "Intermediate", 13, 60),
-    ("Snowbird", 50.75, "Utah, USA", "Advanced", 15, 85),
-    ("Whistler Blackcomb", 82.30, "British Columbia, Canada", "Expert", 25, 200),
-    ("Aspen Snowmass", 55.20, "Colorado, USA", "Intermediate", 21, 96),
-    ("Zermatt", 70.00, "Valais, Switzerland", "Expert", 18, 150),
-    ("Chamonix", 65.40, "Haute-Savoie, France", "Advanced", 20, 120),
-    ("Cortina d'Ampezzo", 40.25, "Veneto, Italy", "Intermediate", 12, 50),
-    ("Niseko", 38.10, "Hokkaido, Japan", "Beginner", 10, 40),
-    ("Banff Sunshine", 48.60, "Alberta, Canada", "Advanced", 14, 75),
-    ("St. Anton", 60.80, "Tyrol, Austria", "Expert", 22, 140);
+    ("Alpine Meadows", 45.50, "California, USA", "Intermediate", 13, 60, "Monday-Sunday: 08:00 - 17:00"),
+    ("Snowbird", 50.75, "Utah, USA", "Advanced", 15, 85, "Monday-Sunday: 08:00 - 17:00"),
+    ("Whistler Blackcomb", 82.30, "British Columbia, Canada", "Expert", 25, 200, "Monday-Sunday: 08:00 - 17:00"),
+    ("Aspen Snowmass", 55.20, "Colorado, USA", "Intermediate", 21, 96, "Monday-Sunday: 08:00 - 17:00"),
+    ("Zermatt", 70.00, "Valais, Switzerland", "Expert", 18, 150, "Monday-Sunday: 08:00 - 17:00"),
+    ("Chamonix", 65.40, "Haute-Savoie, France", "Advanced", 20, 120, "Monday-Sunday: 08:00 - 17:00"),
+    ("Cortina d'Ampezzo", 40.25, "Veneto, Italy", "Intermediate", 12, 50, "Monday-Sunday: 08:00 - 17:00"),
+    ("Niseko", 38.10, "Hokkaido, Japan", "Beginner", 10, 40, "Monday-Sunday: 08:00 - 17:00"),
+    ("Banff Sunshine", 48.60, "Alberta, Canada", "Advanced", 14, 75, "Monday-Sunday: 08:00 - 17:00"),
+    ("St. Anton", 60.80, "Tyrol, Austria", "Expert", 22, 140, "Monday-Sunday: 08:00 - 17:00");
 
 INSERT INTO skiPass (resortID, passType, price)
 VALUES
@@ -186,6 +186,35 @@ VALUES
 (501, 350.00, 'single', 'available'),
 (502, 380.00, 'double', 'unavailable'),
 (503, 400.00, 'quadruple', 'available');
+
+-- Insert into package
+INSERT INTO package (name, description, price, roomID, skiPassID) VALUES 
+("Alpine Starter", "1 day access to Alpine Meadows with shuttle transport", NULL, 101, 1),
+("Snowbird Explorer", "3-day pass at Snowbird with shuttle and snowmobile access", NULL, 103, 10),
+("Whistler Elite", "Luxury heli tour with 2-day pass", NULL, 301, 16),
+("Aspen Comfort", "Aspen access with 4-day ski pass and shuttle", NULL, 203, 25),
+("Zermatt Prestige", "Train and snowmobile access to Zermatt with 5-day ski pass", NULL, 401, 33),
+("Chamonix Ride", "Chamonix shuttle with 2-day ski pass", NULL, 202, 37),
+("Cortina Deal", "Affordable access to Cortina with snowmobile and 3-day pass", NULL, 403, 44),
+("Niseko Discover", "Train and shuttle to Niseko with 2-day pass", NULL, 502, 51),
+("Banff Sunshine Pack", "Banff shuttle with 4-day pass", NULL, 503, 60),
+("St. Anton Tour", "Train to St. Anton with 1-day ski pass", NULL, 302, 64);
+
+-- Link packages with transport
+INSERT INTO packageTransport (packageID, transportID) VALUES 
+(1, 1),
+(2, 2),
+(2, 3),
+(3, 4),
+(4, 6),
+(5, 8),
+(5, 9),
+(6, 10),
+(7, 12),
+(8, 14),
+(8, 15),
+(9, 16),
+(10, 18);
 
 -- INSERT INTO table_name (column1, column2, column3)
 -- VALUES 
