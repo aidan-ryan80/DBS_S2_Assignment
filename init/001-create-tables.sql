@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS package (
     packageID INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
     description TEXT,
-    price DECIMAL(10, 2) NOT NULL CHECK (price > 0),
+    price DECIMAL(10, 2) CHECK (price > 0),
     roomID SMALLINT(3),
     skiPassID INT,
     FOREIGN KEY(roomID) REFERENCES room(roomNumber),
@@ -94,29 +94,40 @@ CREATE TABLE IF NOT EXISTS packageTransport (
 DELIMITER $$
 
 CREATE TRIGGER trg_set_package_price
-AFTER INSERT ON package
+BEFORE INSERT ON package
 FOR EACH ROW
 BEGIN
-    DECLARE room_price DECIMAL(10, 2);
-    DECLARE skiPass_price DECIMAL(10, 2);
-    
-    -- Get the price of the room
-    SELECT price INTO room_price
-    FROM room
-    WHERE roomNumber = NEW.roomID;
+    DECLARE room_price DECIMAL(10,2);
+    DECLARE skiPass_price DECIMAL(10,2);
 
-    -- Get the price of the ski pass
-    SELECT price INTO skiPass_price
-    FROM skiPass
-    WHERE skiPassID = NEW.skiPassID;
+    SELECT price INTO room_price FROM room WHERE roomNumber = NEW.roomID;
+    SELECT price INTO skiPass_price FROM skiPass WHERE skiPassID = NEW.skiPassID;
 
-    -- Set the initial price (room price + ski pass price)
-    UPDATE package
-    SET price = room_price + skiPass_price
-    WHERE packageID = NEW.packageID;
-END;
+    SET NEW.price = room_price + skiPass_price;
+END$$
 
 DELIMITER ;
+
+-- DELIMITER $$
+
+-- CREATE TRIGGER trg_set_package_price
+-- AFTER INSERT ON package
+-- FOR EACH ROW
+-- BEGIN
+--     DECLARE room_price DECIMAL(10, 2);
+    
+--     -- Get the price of the room
+--     SELECT price INTO room_price
+--     FROM room
+--     WHERE roomNumber = NEW.roomID;
+
+--     -- Set the initial price (room price + ski pass price)
+--     UPDATE package
+--     SET price = room_price
+--     WHERE packageID = NEW.packageID;
+-- END$$
+
+-- DELIMITER ;
 
 -- CREATE TRIGGER trg_add_transport_price_to_package
 -- AFTER INSERT ON packageTransport
@@ -147,8 +158,8 @@ DELIMITER ;
 --         UPDATE package
 --         SET price = price + transport_price
 --         WHERE packageID = NEW.packageID;
---     END IF;
--- END;
+--     END IF$$
+-- END$$
 
 -- CREATE TRIGGER trg_remove_transport_price_from_package
 -- AFTER DELETE ON packageTransport

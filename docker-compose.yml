@@ -12,7 +12,7 @@ services:
       - "3306:3306"
     volumes:
       - ./init:/docker-entrypoint-initdb.d  # SQL files will be added here to be run when the container is created
-      - hospitaldb_data_volume:/var/lib/mysql
+      - hoteldb_data_volume:/var/lib/mysql
 
 volumes:
-  hospitaldb_data_volume:
+  hoteldb_data_volume:
