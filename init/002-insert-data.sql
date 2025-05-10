@@ -271,42 +271,43 @@ VALUES
 -- Insert into reservation
 INSERT INTO reservation (status, paymentStatus, checkInDate, checkOutDate, totalCost, hotelID, customerID, packageID, roomID)
 VALUES 
-    ('pending', 'unpayed', '2025-06-10', '2025-06-13', NULL, 1, 6, DEFAULT, 203), -- 3 days
-    ('pending', 'unpayed', '2025-07-01', '2025-07-04', NULL, 1, 7, DEFAULT, 501), -- 3 days
-    ('confirmed', 'unpayed', '2025-08-10', '2025-08-12', NULL, 1, 8, DEFAULT, 502), -- 2 days
-    ('completed', 'failed', '2025-09-05', '2025-09-08', NULL, 1, 9, DEFAULT, 503), -- 3 days
-    ('cancelled', 'unpayed', '2025-10-01', '2025-10-07', NULL, 1, 10, DEFAULT, 302), -- 6 days
-    ('confirmed', 'payed', '2025-01-10', '2025-01-15', NULL, 1, 11, DEFAULT, 101), -- 5 days
-    ('pending', 'unpayed', '2025-02-05', '2025-02-10', NULL, 1, 12, DEFAULT, 102), -- 5 days
-    ('cancelled', 'unpayed', '2025-03-01', '2025-03-06', NULL, 1, 13, DEFAULT, 103), -- 5 days
-    ('completed', 'payed', '2025-04-10', '2025-04-15', NULL, 1, 14, DEFAULT, 104), -- 5 days
-    ('no_show', 'unpayed', '2025-05-01', '2025-05-07', NULL, 1, 15, DEFAULT, 105), -- 6 days
-    ('confirmed', 'payed', '2025-06-15', '2025-06-20', NULL, 1, 16, DEFAULT, 201), -- 5 days
-    ('pending', 'unpayed', '2025-07-10', '2025-07-15', NULL, 1, 17, DEFAULT, 202), -- 5 days
-    ('cancelled', 'unpayed', '2025-08-05', '2025-08-10', NULL, 1, 18, DEFAULT, 203), -- 5 days
-    ('completed', 'payed', '2026-02-05', '2026-02-10', NULL, 1, 24, DEFAULT, 304), -- 5 days
-    ('no_show', 'unpayed', '2026-03-01', '2026-03-06', NULL, 1, 25, DEFAULT, 305), -- 5 days
-    ('pending', 'unpayed', '2026-04-10', '2026-04-15', NULL, 1, 26, DEFAULT, 402), -- 5 days
-    ('cancelled', 'unpayed', '2026-05-01', '2026-05-06', NULL, 1, 27, DEFAULT, 403), -- 5 days
-    ('completed', 'payed', '2026-05-10', '2026-05-15', NULL, 1, 28, DEFAULT, 404), -- 5 days
-    ('no_show', 'unpayed', '2026-06-01', '2026-06-06', NULL, 1, 29, DEFAULT, 405), -- 5 days
-    ('confirmed', 'payed', '2026-04-01', '2026-04-07', NULL, 1, 30, DEFAULT, 401), -- 6 days
-    ('pending', 'payed', '2025-05-01', '2025-05-08', NULL, 1, 1, 1, 101), -- 7 days
-    ('confirmed', 'payed', '2025-06-05', '2025-06-11', NULL, 1, 2, 2, 103), -- 6 days
-    ('cancelled', 'failed', '2025-07-20', '2025-07-26', NULL, 1, 3, 3, 102), -- 6 days
-    ('completed', 'payed', '2025-08-15', '2025-08-21', NULL, 1, 4, 4, 201), -- 6 days
-    ('no_show', 'unpayed', '2025-09-12', '2025-09-17', NULL, 1, 5, 5, 202), -- 5 days
-    ('completed', 'payed', '2025-09-01', '2025-09-06', NULL, 1, 19, 3, 204), -- 3 daya
-    ('no_show', 'unpayed', '2025-10-10', '2025-10-15', NULL, 1, 20, 4, 205), -- 5 daya
-    ('confirmed', 'payed', '2025-11-05', '2025-11-10', NULL, 1, 21, 5, 301), -- 5 daya
-    ('pending', 'unpayed', '2025-12-01', '2025-12-06', NULL, 1, 22, 2, 302), -- 2 daya
-    ('cancelled', 'unpayed', '2026-01-10', '2026-01-15', NULL, 1, 23, 1, 303), -- 1 day
-    ('confirmed', 'payed', '2025-01-15', '2025-01-20', NULL, 1, 11, 1, 101), -- 5 days
-    ('pending', 'unpayed', '2025-02-10', '2025-02-15', NULL, 1, 12, 2, 102), -- 5 days
-    ('cancelled', 'unpayed', '2025-03-05', '2025-03-10', NULL, 1, 13, 3, 103), -- 5 days
-    ('completed', 'payed', '2025-04-15', '2025-04-20', NULL, 1, 14, 4, 104), -- 5 days
-    ('no_show', 'unpayed', '2025-05-07', '2025-05-12', NULL, 1, 15, 5, 105), -- 5 days
-    ('confirmed', 'payed', '2025-06-20', '2025-06-25', NULL, 1, 16, 6, 201), -- 5 days
-    ('pending', 'unpayed', '2025-07-15', '2025-07-20', NULL, 1, 17, 7, 202), -- 5 days
-    ('cancelled', 'unpayed', '2025-08-10', '2025-08-15', NULL, 1, 18, 8, 203), -- 5 days
-    ('completed', 'payed', '2025-09-06', '2025-09-11', NULL, 1, 19, 9, 204); -- 5 days
+    ('pending', 'unpayed', '2025-06-10', '2025-06-12', NULL, 1, 6, 1, 101),  -- 2 days, packageID = 1 (1-day ski pass), roomID 101
+    ('pending', 'unpayed', '2025-07-01', '2025-07-04', NULL, 1, 7, 6, 103),  -- 3 days, packageID = 6 (2-day ski pass), roomID 103
+    ('confirmed', 'unpayed', '2025-08-10', '2025-08-14', NULL, 1, 8, 7, 502), -- 4 days, packageID = 7 (3-day ski pass), roomID 502
+    ('completed', 'failed', '2025-09-05', '2025-09-09', NULL, 1, 9, 8, 503),  -- 4 days, packageID = 8 (4-day ski pass), roomID 503
+    ('cancelled', 'unpayed', '2025-10-01', '2025-10-06', NULL, 1, 10, NULL, 302), -- 5 days, no package, roomID 302
+    ('confirmed', 'payed', '2025-01-10', '2025-01-13', NULL, 1, 11, 9, 101),  -- 3 days, packageID = 9 (1-day ski pass), roomID 101
+    ('pending', 'unpayed', '2025-02-05', '2025-02-09', NULL, 1, 12, NULL, 102), -- 4 days, no package, roomID 102
+    ('cancelled', 'unpayed', '2025-03-01', '2025-03-05', NULL, 1, 13, 10, 103), -- 4 days, packageID = 10 (3-day ski pass), roomID 103
+    ('completed', 'payed', '2025-04-10', '2025-04-14', NULL, 1, 14, NULL, 104), -- 4 days, no package, roomID 104
+    ('no_show', 'unpayed', '2025-05-01', '2025-05-06', NULL, 1, 15, NULL, 105), -- 5 days, no package, roomID 105
+    ('confirmed', 'payed', '2025-06-15', '2025-06-18', NULL, 1, 16, 11, 201), -- 3 days, packageID = 11 (2-day ski pass), roomID 201
+    ('pending', 'unpayed', '2025-07-10', '2025-07-13', NULL, 1, 17, 12, 202), -- 3 days, packageID = 12 (3-day ski pass), roomID 202
+    ('cancelled', 'unpayed', '2025-08-05', '2025-08-09', NULL, 1, 18, NULL, 203), -- 4 days, no package, roomID 203
+    ('completed', 'payed', '2026-02-05', '2026-02-08', NULL, 1, 24, 13, 304), -- 3 days, packageID = 13 (1-day ski pass), roomID 304
+    ('no_show', 'unpayed', '2026-03-01', '2026-03-04', NULL, 1, 25, NULL, 305), -- 3 days, no package, roomID 305
+    ('pending', 'unpayed', '2026-04-10', '2026-04-13', NULL, 1, 26, 14, 402), -- 3 days, packageID = 14 (3-day ski pass), roomID 402
+    ('cancelled', 'unpayed', '2026-05-01', '2026-05-05', NULL, 1, 27, NULL, 403), -- 4 days, no package, roomID 403
+    ('completed', 'payed', '2026-05-10', '2026-05-14', NULL, 1, 28, 15, 404), -- 4 days, packageID = 15 (4-day ski pass), roomID 404
+    ('no_show', 'unpayed', '2026-06-01', '2026-06-05', NULL, 1, 29, NULL, 405), -- 4 days, no package, roomID 405
+    ('confirmed', 'payed', '2026-04-01', '2026-04-06', NULL, 1, 30, 16, 401), -- 5 days, packageID = 16 (5-day ski pass), roomID 401
+    ('pending', 'payed', '2025-05-01', '2025-05-04', NULL, 1, 1, NULL, 101),   -- 3 days, no package, roomID 101
+    ('confirmed', 'payed', '2025-06-05', '2025-06-09', NULL, 1, 2, 6, 103),  -- 4 days, packageID = 6 (2-day ski pass), roomID 103
+    ('cancelled', 'failed', '2025-07-20', '2025-07-24', NULL, 1, 3, 7, 102), -- 4 days, packageID = 7 (3-day ski pass), roomID 102
+    ('completed', 'payed', '2025-08-15', '2025-08-19', NULL, 1, 4, 8, 201), -- 4 days, packageID = 8 (4-day ski pass), roomID 201
+    ('no_show', 'unpayed', '2025-09-12', '2025-09-15', NULL, 1, 5, NULL, 202), -- 3 days, no package, roomID 202
+    ('completed', 'payed', '2025-09-01', '2025-09-05', NULL, 1, 19, 10, 204), -- 4 days, packageID = 10 (3-day ski pass), roomID 204
+    ('no_show', 'unpayed', '2025-10-10', '2025-10-14', NULL, 1, 20, 11, 205), -- 4 days, packageID = 11 (2-day ski pass), roomID 205
+    ('confirmed', 'payed', '2025-11-05', '2025-11-09', NULL, 1, 21, 12, 301), -- 4 days, packageID = 12 (3-day ski pass), roomID 301
+    ('pending', 'unpayed', '2025-12-01', '2025-12-04', NULL, 1, 22, NULL, 302), -- 3 days, no package, roomID 302
+    ('cancelled', 'unpayed', '2026-01-10', '2026-01-13', NULL, 1, 23, 13, 303), -- 3 days, packageID = 13 (1-day ski pass), roomID 303
+    ('confirmed', 'payed', '2025-01-15', '2025-01-18', NULL, 1, 11, 9, 101),  -- 3 days, packageID = 9 (1-day ski pass), roomID 101
+    ('pending', 'unpayed', '2025-02-10', '2025-02-13', NULL, 1, 12, 6, 102),  -- 3 days, packageID = 6 (2-day ski pass), roomID 102
+    ('cancelled', 'unpayed', '2025-03-05', '2025-03-08', NULL, 1, 13, 7, 103), -- 3 days, packageID = 7 (3-day ski pass), roomID 103
+    ('completed', 'payed', '2025-04-15', '2025-04-18', NULL, 1, 14, 8, 104), -- 3 days, packageID = 8 (4-day ski pass), roomID 104
+    ('no_show', 'unpayed', '2025-05-07', '2025-05-10', NULL, 1, 15, NULL, 105), -- 3 days, no package, roomID 105
+    ('confirmed', 'payed', '2025-06-20', '2025-06-23', NULL, 1, 16, 6, 201), -- 3 days, packageID = 6 (2-day ski pass), roomID 201
+    ('pending', 'unpayed', '2025-07-15', '2025-07-18', NULL, 1, 17, 7, 202), -- 3 days, packageID = 7 (3-day ski pass), roomID 202
+    ('cancelled', 'unpayed', '2025-08-10', '2025-08-13', NULL, 1, 18, 8, 203), -- 3 days, packageID = 8 (4-day ski pass), roomID 203
+    ('completed', 'payed', '2025-09-06', '2025-09-09', NULL, 1, 19, 9, 204)  -- 3 days, packageID = 9 (3-day ski pass), roomID 204
+;
