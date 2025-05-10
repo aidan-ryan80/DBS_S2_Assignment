@@ -90,43 +90,43 @@ VALUES
 (1, '4 Day Pass', 190.00),
 (1, '5 Day Pass', 225.00),
 (1, '6 Day Pass', 255.00),
-(1, '7 Day Pass', 280.00),
+(1, '7 Day Pass', 280.00), -- 7
 
 -- Snowbird (Advanced)
 (2, 'Day Pass', 65.00),
 (2, '2 Day Pass', 125.00),
-(2, '3 Day Pass', 180.00),
+(2, '3 Day Pass', 180.00), -- 10
 (2, '4 Day Pass', 230.00),
 (2, '5 Day Pass', 275.00),
 (2, '6 Day Pass', 315.00),
-(2, '7 Day Pass', 350.00),
+(2, '7 Day Pass', 350.00), -- 14
 
 -- Whistler Blackcomb (Expert, largest)
 (3, 'Day Pass', 80.00),
-(3, '2 Day Pass', 155.00),
+(3, '2 Day Pass', 155.00), -- 16
 (3, '3 Day Pass', 225.00),
 (3, '4 Day Pass', 290.00),
 (3, '5 Day Pass', 350.00),
 (3, '6 Day Pass', 405.00),
-(3, '7 Day Pass', 455.00),
+(3, '7 Day Pass', 455.00),-- 21
 
 -- Aspen Snowmass (Intermediate, large)
 (4, 'Day Pass', 70.00),
 (4, '2 Day Pass', 135.00),
 (4, '3 Day Pass', 195.00),
-(4, '4 Day Pass', 250.00),
+(4, '4 Day Pass', 250.00), -- 25
 (4, '5 Day Pass', 300.00),
 (4, '6 Day Pass', 345.00),
-(4, '7 Day Pass', 385.00),
+(4, '7 Day Pass', 385.00), -- 28
 
 -- Zermatt (Expert, very prestigious)
 (5, 'Day Pass', 78.00),
 (5, '2 Day Pass', 150.00),
 (5, '3 Day Pass', 215.00),
 (5, '4 Day Pass', 275.00),
-(5, '5 Day Pass', 330.00),
+(5, '5 Day Pass', 330.00), -- 33
 (5, '6 Day Pass', 380.00),
-(5, '7 Day Pass', 425.00),
+(5, '7 Day Pass', 425.00), -- 35
 
 -- Chamonix (Advanced, large)
 (6, 'Day Pass', 75.00),
@@ -135,7 +135,7 @@ VALUES
 (6, '4 Day Pass', 270.00),
 (6, '5 Day Pass', 325.00),
 (6, '6 Day Pass', 375.00),
-(6, '7 Day Pass', 420.00),
+(6, '7 Day Pass', 420.00), -- 42
 
 -- Cortina d'Ampezzo (Intermediate, smaller)
 (7, 'Day Pass', 52.00),
@@ -144,7 +144,7 @@ VALUES
 (7, '4 Day Pass', 182.00),
 (7, '5 Day Pass', 217.00),
 (7, '6 Day Pass', 248.00),
-(7, '7 Day Pass', 275.00),
+(7, '7 Day Pass', 275.00), -- 49
 
 -- Niseko (Beginner)
 (8, 'Day Pass', 45.00),
@@ -153,7 +153,7 @@ VALUES
 (8, '4 Day Pass', 156.00),
 (8, '5 Day Pass', 187.00),
 (8, '6 Day Pass', 215.00),
-(8, '7 Day Pass', 240.00),
+(8, '7 Day Pass', 240.00), -- 56
 
 -- Banff Sunshine (Advanced)
 (9, 'Day Pass', 68.00),
@@ -162,7 +162,7 @@ VALUES
 (9, '4 Day Pass', 245.00),
 (9, '5 Day Pass', 295.00),
 (9, '6 Day Pass', 340.00),
-(9, '7 Day Pass', 380.00),
+(9, '7 Day Pass', 380.00), -- 63
 
 -- St. Anton (Expert)
 (10, 'Day Pass', 76.00),
@@ -171,7 +171,7 @@ VALUES
 (10, '4 Day Pass', 270.00),
 (10, '5 Day Pass', 325.00),
 (10, '6 Day Pass', 375.00),
-(10, '7 Day Pass', 420.00);
+(10, '7 Day Pass', 420.00); -- 70
 
 INSERT INTO transport (resortID, type, price, timetable)
 VALUES
@@ -240,16 +240,16 @@ VALUES
 -- Insert into package
 INSERT INTO package (name, description, price, roomID, skiPassID) 
 VALUES 
-("Alpine Starter", "1 day access to Alpine Meadows with shuttle transport", NULL, 101, 1),
-("Snowbird Explorer", "3-day pass at Snowbird with shuttle and snowmobile access", NULL, 103, 10),
-("Whistler Elite", "Luxury heli tour with 2-day pass", NULL, 301, 16),
-("Aspen Comfort", "Aspen access with 4-day ski pass and shuttle", NULL, 203, 25),
-("Zermatt Prestige", "Train and snowmobile access to Zermatt with 5-day ski pass", NULL, 401, 33),
-("Chamonix Ride", "Chamonix shuttle with 2-day ski pass", NULL, 202, 37),
-("Cortina Deal", "Affordable access to Cortina with snowmobile and 3-day pass", NULL, 403, 44),
-("Niseko Discover", "Train and shuttle to Niseko with 2-day pass", NULL, 502, 51),
-("Banff Sunshine Pack", "Banff shuttle with 4-day pass", NULL, 503, 60),
-("St. Anton Tour", "Train to St. Anton with 1-day ski pass", NULL, 302, 64);
+("Alpine Starter", "1 day access to Alpine Meadows with shuttle transport", NULL, 101, 1), -- single room, 1 day pass
+("Snowbird Explorer", "3-day pass at Snowbird with shuttle and snowmobile access", NULL, 103, 10), -- triple room, 3 day pass
+("Whistler Elite", "Luxury heli tour with 2-day pass", NULL, 301, 16), -- single room, 2 day pass
+("Aspen Comfort", "Aspen access with 4-day ski pass and shuttle", NULL, 203, 25), -- triple room, 4 day pass
+("Zermatt Prestige", "Train and snowmobile access to Zermatt with 5-day ski pass", NULL, 401, 33), -- single room, 5 day pass
+("Chamonix Ride", "Chamonix shuttle with 2-day ski pass", NULL, 202, 37), -- double room
+("Cortina Deal", "Affordable access to Cortina with snowmobile and 3-day pass", NULL, 403, 45), -- triple room
+("Niseko Discover", "Train and shuttle to Niseko with 2-day pass", NULL, 502, 51), -- double room
+("Banff Sunshine Pack", "Banff shuttle with 4-day pass", NULL, 503, 60), -- quadruple room
+("St. Anton Tour", "Train to St. Anton with 1-day ski pass", NULL, 302, 64); -- double room
 
 -- Link packages with transport
 INSERT INTO packageTransport (packageID, transportID) 
@@ -268,46 +268,45 @@ VALUES
 (9, 16),
 (10, 18);
 
--- Insert into reservation
 INSERT INTO reservation (status, paymentStatus, checkInDate, checkOutDate, totalCost, hotelID, customerID, packageID, roomID)
 VALUES 
-    ('pending', 'unpayed', '2025-06-10', '2025-06-12', NULL, 1, 6, 1, 101),  -- 2 days, packageID = 1 (1-day ski pass), roomID 101
-    ('pending', 'unpayed', '2025-07-01', '2025-07-04', NULL, 1, 7, 6, 103),  -- 3 days, packageID = 6 (2-day ski pass), roomID 103
-    ('confirmed', 'unpayed', '2025-08-10', '2025-08-14', NULL, 1, 8, 7, 502), -- 4 days, packageID = 7 (3-day ski pass), roomID 502
-    ('completed', 'failed', '2025-09-05', '2025-09-09', NULL, 1, 9, 8, 503),  -- 4 days, packageID = 8 (4-day ski pass), roomID 503
-    ('cancelled', 'unpayed', '2025-10-01', '2025-10-06', NULL, 1, 10, NULL, 302), -- 5 days, no package, roomID 302
-    ('confirmed', 'payed', '2025-01-10', '2025-01-13', NULL, 1, 11, 9, 101),  -- 3 days, packageID = 9 (1-day ski pass), roomID 101
-    ('pending', 'unpayed', '2025-02-05', '2025-02-09', NULL, 1, 12, NULL, 102), -- 4 days, no package, roomID 102
-    ('cancelled', 'unpayed', '2025-03-01', '2025-03-05', NULL, 1, 13, 10, 103), -- 4 days, packageID = 10 (3-day ski pass), roomID 103
-    ('completed', 'payed', '2025-04-10', '2025-04-14', NULL, 1, 14, NULL, 104), -- 4 days, no package, roomID 104
-    ('no_show', 'unpayed', '2025-05-01', '2025-05-06', NULL, 1, 15, NULL, 105), -- 5 days, no package, roomID 105
-    ('confirmed', 'payed', '2025-06-15', '2025-06-18', NULL, 1, 16, 11, 201), -- 3 days, packageID = 11 (2-day ski pass), roomID 201
-    ('pending', 'unpayed', '2025-07-10', '2025-07-13', NULL, 1, 17, 12, 202), -- 3 days, packageID = 12 (3-day ski pass), roomID 202
-    ('cancelled', 'unpayed', '2025-08-05', '2025-08-09', NULL, 1, 18, NULL, 203), -- 4 days, no package, roomID 203
-    ('completed', 'payed', '2026-02-05', '2026-02-08', NULL, 1, 24, 13, 304), -- 3 days, packageID = 13 (1-day ski pass), roomID 304
-    ('no_show', 'unpayed', '2026-03-01', '2026-03-04', NULL, 1, 25, NULL, 305), -- 3 days, no package, roomID 305
-    ('pending', 'unpayed', '2026-04-10', '2026-04-13', NULL, 1, 26, 14, 402), -- 3 days, packageID = 14 (3-day ski pass), roomID 402
-    ('cancelled', 'unpayed', '2026-05-01', '2026-05-05', NULL, 1, 27, NULL, 403), -- 4 days, no package, roomID 403
-    ('completed', 'payed', '2026-05-10', '2026-05-14', NULL, 1, 28, 15, 404), -- 4 days, packageID = 15 (4-day ski pass), roomID 404
-    ('no_show', 'unpayed', '2026-06-01', '2026-06-05', NULL, 1, 29, NULL, 405), -- 4 days, no package, roomID 405
-    ('confirmed', 'payed', '2026-04-01', '2026-04-06', NULL, 1, 30, 16, 401), -- 5 days, packageID = 16 (5-day ski pass), roomID 401
-    ('pending', 'payed', '2025-05-01', '2025-05-04', NULL, 1, 1, NULL, 101),   -- 3 days, no package, roomID 101
-    ('confirmed', 'payed', '2025-06-05', '2025-06-09', NULL, 1, 2, 6, 103),  -- 4 days, packageID = 6 (2-day ski pass), roomID 103
-    ('cancelled', 'failed', '2025-07-20', '2025-07-24', NULL, 1, 3, 7, 102), -- 4 days, packageID = 7 (3-day ski pass), roomID 102
-    ('completed', 'payed', '2025-08-15', '2025-08-19', NULL, 1, 4, 8, 201), -- 4 days, packageID = 8 (4-day ski pass), roomID 201
-    ('no_show', 'unpayed', '2025-09-12', '2025-09-15', NULL, 1, 5, NULL, 202), -- 3 days, no package, roomID 202
-    ('completed', 'payed', '2025-09-01', '2025-09-05', NULL, 1, 19, 10, 204), -- 4 days, packageID = 10 (3-day ski pass), roomID 204
-    ('no_show', 'unpayed', '2025-10-10', '2025-10-14', NULL, 1, 20, 11, 205), -- 4 days, packageID = 11 (2-day ski pass), roomID 205
-    ('confirmed', 'payed', '2025-11-05', '2025-11-09', NULL, 1, 21, 12, 301), -- 4 days, packageID = 12 (3-day ski pass), roomID 301
-    ('pending', 'unpayed', '2025-12-01', '2025-12-04', NULL, 1, 22, NULL, 302), -- 3 days, no package, roomID 302
-    ('cancelled', 'unpayed', '2026-01-10', '2026-01-13', NULL, 1, 23, 13, 303), -- 3 days, packageID = 13 (1-day ski pass), roomID 303
-    ('confirmed', 'payed', '2025-01-15', '2025-01-18', NULL, 1, 11, 9, 101),  -- 3 days, packageID = 9 (1-day ski pass), roomID 101
-    ('pending', 'unpayed', '2025-02-10', '2025-02-13', NULL, 1, 12, 6, 102),  -- 3 days, packageID = 6 (2-day ski pass), roomID 102
-    ('cancelled', 'unpayed', '2025-03-05', '2025-03-08', NULL, 1, 13, 7, 103), -- 3 days, packageID = 7 (3-day ski pass), roomID 103
-    ('completed', 'payed', '2025-04-15', '2025-04-18', NULL, 1, 14, 8, 104), -- 3 days, packageID = 8 (4-day ski pass), roomID 104
-    ('no_show', 'unpayed', '2025-05-07', '2025-05-10', NULL, 1, 15, NULL, 105), -- 3 days, no package, roomID 105
-    ('confirmed', 'payed', '2025-06-20', '2025-06-23', NULL, 1, 16, 6, 201), -- 3 days, packageID = 6 (2-day ski pass), roomID 201
-    ('pending', 'unpayed', '2025-07-15', '2025-07-18', NULL, 1, 17, 7, 202), -- 3 days, packageID = 7 (3-day ski pass), roomID 202
-    ('cancelled', 'unpayed', '2025-08-10', '2025-08-13', NULL, 1, 18, 8, 203), -- 3 days, packageID = 8 (4-day ski pass), roomID 203
-    ('completed', 'payed', '2025-09-06', '2025-09-09', NULL, 1, 19, 9, 204)  -- 3 days, packageID = 9 (3-day ski pass), roomID 204
-;
+    ('pending', 'unpayed', '2025-06-10', '2025-06-12', NULL, 1, 6, 1, 101), -- 2 days, packageID = 1 (1-day ski pass)
+    ('pending', 'unpayed', '2025-07-01', '2025-07-05', NULL, 1, 7, 6, 202), -- 4 days, packageID = 6 (2-day ski pass)
+    ('confirmed', 'unpayed', '2025-08-10', '2025-08-13', NULL, 1, 8, 7, 403), -- 3 days, packageID = 7 (3-day ski pass)
+    ('completed', 'failed', '2025-10-05', '2025-10-09', NULL, 1, 9, 8, 502), -- 4 days, packageID = 8 (4-day ski pass)
+    ('cancelled', 'unpayed', '2025-10-01', '2025-10-06', NULL, 1, 10, 9, 503), -- 5 days, packageID = 9 (4-day ski pass)
+    ('confirmed', 'payed', '2025-01-10', '2025-01-14', NULL, 1, 11, 9, 503), -- 4 days, packageID = 9 (4-day ski pass)
+    ('pending', 'unpayed', '2025-02-05', '2025-02-09', NULL, 1, 12, NULL, 102), -- 4 days, no package
+    ('cancelled', 'unpayed', '2025-03-01', '2025-03-04', NULL, 1, 13, NULL, 103), -- 3 days, no package
+    ('completed', 'payed', '2025-04-10', '2025-04-12', NULL, 1, 14, NULL, 104), -- 2 days, no package
+    ('no_show', 'unpayed', '2025-05-01', '2025-05-06', NULL, 1, 15, NULL, 105), -- 5 days, no package
+    ('confirmed', 'payed', '2025-06-15', '2025-06-18', NULL, 1, 16, 6, 202), -- 3 days, packageID = 6 (2-day ski pass)
+    ('pending', 'unpayed', '2025-07-10', '2025-07-14', NULL, 1, 17, 7, 403), -- 4 days, packageID = 7 (3-day ski pass)
+    ('cancelled', 'unpayed', '2025-07-05', '2025-07-09', NULL, 1, 18, NULL, 203), -- 4 days, no package
+    ('completed', 'payed', '2025-02-05', '2025-02-08', NULL, 1, 24, 8, 502), -- 3 days, packageID = 8 (2-day ski pass)
+    ('no_show', 'unpayed', '2025-04-01', '2025-04-04', NULL, 1, 25, NULL, 305), -- 3 days, no package
+    ('pending', 'unpayed', '2025-04-10', '2025-04-13', NULL, 1, 26, 9, 503), -- 3 days, packageID = 9 (4-day ski pass)
+    ('cancelled', 'unpayed', '2025-06-01', '2025-06-05', NULL, 1, 27, NULL, 403), -- 4 days, no package
+    ('completed', 'payed', '2025-05-10', '2025-05-14', NULL, 1, 28, 10, 302), -- 4 days, packageID = 10 (1-day ski pass)
+    ('no_show', 'unpayed', '2025-06-01', '2025-06-05', NULL, 1, 29, NULL, 405), -- 4 days, no package
+    ('confirmed', 'payed', '2025-05-01', '2025-05-06', NULL, 1, 30, 2, 103), -- 5 days, packageID = 2 (3-day ski pass)
+    ('pending', 'unpayed', '2025-07-01', '2025-07-03', NULL, 1, 6, 1, 101), -- 2 days, packageID = 1 (1-day ski pass)
+    ('pending', 'unpayed', '2025-08-01', '2025-08-06', NULL, 1, 7, 3, 301), -- 5 days, packageID = 3 (2-day ski pass)
+    ('confirmed', 'unpayed', '2025-09-01', '2025-09-03', NULL, 1, 8, 4, 203), -- 2 days, packageID = 4 (4-day ski pass)
+    ('completed', 'failed', '2025-10-05', '2025-10-10', NULL, 1, 9, 5, 401), -- 5 days, packageID = 5 (5-day ski pass)
+    ('cancelled', 'unpayed', '2025-11-01', '2025-11-05', NULL, 1, 10, 4, 203), -- 4 days, packageID = 4 (4-day ski pass)
+    ('confirmed', 'payed', '2025-02-05', '2025-02-09', NULL, 1, 11, 9, 503), -- 4 days, packageID = 9 (4-day ski pass)
+    ('pending', 'unpayed', '2025-03-05', '2025-03-09', NULL, 1, 12, NULL, 102), -- 4 days, no package
+    ('cancelled', 'unpayed', '2025-04-01', '2025-04-04', NULL, 1, 13, NULL, 103), -- 3 days, no package
+    ('completed', 'payed', '2025-05-05', '2025-05-08', NULL, 1, 14, NULL, 104), -- 3 days, no package
+    ('no_show', 'unpayed', '2025-06-01', '2025-06-06', NULL, 1, 15, NULL, 105), -- 5 days, no package
+    ('confirmed', 'payed', '2025-07-01', '2025-07-04', NULL, 1, 16, 3, 301), -- 3 days, packageID = 3 (2-day ski pass)
+    ('pending', 'unpayed', '2025-08-05', '2025-08-10', NULL, 1, 17, 4, 203), -- 5 days, packageID = 4 (4-day ski pass)
+    ('cancelled', 'unpayed', '2025-09-05', '2025-09-10', NULL, 1, 18, NULL, 203), -- 5 days, no package
+    ('completed', 'payed', '2025-02-05', '2025-02-08', NULL, 1, 24, 8, 502), -- 3 days, packageID = 8 (2-day ski pass)
+    ('no_show', 'unpayed', '2025-03-01', '2025-03-05', NULL, 1, 25, NULL, 305), -- 4 days, no package
+    ('pending', 'unpayed', '2025-04-05', '2025-04-09', NULL, 1, 26, 9, 503), -- 4 days, packageID = 9 (4-day ski pass)
+    ('cancelled', 'unpayed', '2025-05-01', '2025-05-06', NULL, 1, 27, NULL, 403), -- 5 days, no package
+    ('completed', 'payed', '2025-06-15', '2025-06-19', NULL, 1, 28, 10, 302), -- 4 days, packageID = 10 (1-day ski pass)
+    ('no_show', 'unpayed', '2025-07-01', '2025-07-05', NULL, 1, 29, NULL, 405), -- 4 days, no package
+    ('confirmed', 'payed', '2025-08-01', '2025-08-05', NULL, 1, 30, 10, 302); -- 5 days, packageID = 10 (1-day ski pass)
