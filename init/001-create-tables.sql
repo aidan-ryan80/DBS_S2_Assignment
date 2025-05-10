@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS package (
     packageID INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
     description TEXT,
-    price DECIMAL(10, 2) CHECK (price > 0),
+    price DECIMAL(10, 2) NOT NULL CHECK (price > 0),
     roomID SMALLINT(3),
     skiPassID INT,
     FOREIGN KEY(roomID) REFERENCES room(roomNumber),
@@ -93,21 +93,27 @@ CREATE TABLE IF NOT EXISTS packageTransport (
 
 DELIMITER $$
 
-CREATE TRIGGER trg_update_package_price_on_transport_delete
-AFTER DELETE ON packageTransport
+CREATE TRIGGER trg_set_package_price
+AFTER INSERT ON package
 FOR EACH ROW
 BEGIN
-    DECLARE transport_price DECIMAL(10, 2);
+    DECLARE room_price DECIMAL(10, 2);
+    DECLARE skiPass_price DECIMAL(10, 2);
     
-    -- Get the price of the transport being removed
-    SELECT price INTO transport_price
-    FROM transport
-    WHERE transportID = OLD.transportID;
+    -- Get the price of the room
+    SELECT price INTO room_price
+    FROM room
+    WHERE roomNumber = NEW.roomID;
 
-    -- Update the total price of the package by subtracting the transport price
+    -- Get the price of the ski pass
+    SELECT price INTO skiPass_price
+    FROM skiPass
+    WHERE skiPassID = NEW.skiPassID;
+
+    -- Set the initial price (room price + ski pass price)
     UPDATE package
-    SET price = price - transport_price
-    WHERE packageID = OLD.packageID;
+    SET price = room_price + skiPass_price
+    WHERE packageID = NEW.packageID;
 END;
 
 DELIMITER ;
