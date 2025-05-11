@@ -5,7 +5,6 @@ import sys
 import time
 
 time.sleep(5)
-
 # Connect to MariaDB
 try:
     conn = mariadb.connect(
