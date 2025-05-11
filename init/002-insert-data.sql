@@ -1,8 +1,8 @@
 -- Inserting a single entry that must be unique into the hotel table
-INSERT INTO hotel (address, name) VALUES ('myaddress123, 2001, Vienna', 'Awesome Resort');
+INSERT INTO Hotel (address, name) VALUES ('myaddress123, 2001, Vienna', 'Awesome Resort');
 
 -- Inserting at least 10 entries into the following tables
-INSERT INTO customer (email, phoneNumber, name, age, address)
+INSERT INTO Customers (email, phoneNumber, name, age, address)
 VALUES
     ('john.doe@example.com', '1234567890', 'John Doe', '30', '123 Main St'),
     ('jane.smith@example.com', '0987654321', 'Jane Smith', '25', '456 Elm St'),
@@ -35,7 +35,7 @@ VALUES
     ('ethan.king@example.com', '1089900112', 'Ethan King', '35', '1901 Cedarwood Ct'),
     ('grace.hall@example.com', '1090011223', 'Grace Hall', '24', '2002 Pinewood St');
 
-INSERT INTO paymentInfo (customerID, billingAddress, cardHolderName, expirationDate, cardIssuer, cardNumber)
+INSERT INTO PaymentInfos (customerID, billingAddress, cardHolderName, expirationDate, cardIssuer, cardNumber)
 VALUES
     (1, '123 Main St', 'John Doe', '2025-12-31', 'Visa', '4111111111111111'),
     (2, '456 Elm St', 'Jane Smith', '2026-06-30', 'MasterCard', '5500000000000004'),
@@ -68,7 +68,7 @@ VALUES
     (29, '1901 Cedarwood Ct', 'Ethan King', '2026-08-19', 'Visa', '4111111111115555'),
     (30, '2002 Pinewood St', 'Grace Hall', '2027-04-30', 'MasterCard', '5500000000002222');
 
-INSERT INTO skiResort (name, size, location, difficultyLevel, skiLiftsCount, slopesCount, businessHours)
+INSERT INTO SkiResorts (name, size, location, difficultyLevel, skiLiftsCount, slopesCount, businessHours)
 VALUES 
     ("Alpine Meadows", 45.50, "California, USA", "Intermediate", 13, 60, "Monday-Sunday: 08:00 - 17:00"),
     ("Snowbird", 50.75, "Utah, USA", "Advanced", 15, 85, "Monday-Sunday: 08:00 - 17:00"),
@@ -81,7 +81,7 @@ VALUES
     ("Banff Sunshine", 48.60, "Alberta, Canada", "Advanced", 14, 75, "Monday-Sunday: 08:00 - 17:00"),
     ("St. Anton", 60.80, "Tyrol, Austria", "Expert", 22, 140, "Monday-Sunday: 08:00 - 17:00");
 
-INSERT INTO skiPass (resortID, passType, price)
+INSERT INTO SkiPasses (resortID, passType, price)
 VALUES
 -- Alpine Meadows (Intermediate)
 (1, 'Day Pass', 55.00),
@@ -173,7 +173,7 @@ VALUES
 (10, '6 Day Pass', 375.00),
 (10, '7 Day Pass', 420.00); -- 70
 
-INSERT INTO transport (resortID, type, price, timetable)
+INSERT INTO Transports (resortID, type, price, timetable)
 VALUES
 -- Alpine Meadows (resortID = 1)
 (1, 'shuttle', 30.00, 'Shuttle departs every hour from 7 AM to 9 PM'),
@@ -204,7 +204,7 @@ VALUES
 (10, 'shuttle', 32.00, 'Shuttle departs every 45 minutes from 6 AM to 8 PM'),
 (10, 'train', 55.00, 'Train service available every 30 minutes from St. Anton Bahnhof');
 
-INSERT INTO room (roomNumber, price, type, availability) 
+INSERT INTO Rooms (roomNumber, price, type, availability) 
 VALUES
 -- Floor 1
 (101, 100.00, 'single', 'available'),
@@ -238,7 +238,7 @@ VALUES
 (505, 440.00, 'single', 'available');    -- New room
 
 -- Insert into package
-INSERT INTO package (name, description, price, roomID, skiPassID) 
+INSERT INTO Packages (name, description, price, roomID, skiPassID) 
 VALUES 
 ("Alpine Starter", "1 day access to Alpine Meadows with shuttle transport", NULL, 101, 1), -- single room, 1 day pass
 ("Snowbird Explorer", "3-day pass at Snowbird with shuttle and snowmobile access", NULL, 103, 10), -- triple room, 3 day pass
@@ -252,7 +252,7 @@ VALUES
 ("St. Anton Tour", "Train to St. Anton with 1-day ski pass", NULL, 302, 64); -- double room
 
 -- Link packages with transport
-INSERT INTO packageTransport (packageID, transportID) 
+INSERT INTO PackagesTransports (packageID, transportID) 
 VALUES 
 (1, 1),
 (2, 2),
@@ -268,7 +268,7 @@ VALUES
 (9, 16),
 (10, 18);
 
-INSERT INTO reservation (status, paymentStatus, checkInDate, checkOutDate, totalCost, hotelID, customerID, packageID, roomID)
+INSERT INTO Reservations (status, paymentStatus, checkInDate, checkOutDate, totalCost, hotelID, customerID, packageID, roomID)
 VALUES 
     ('pending', 'unpayed', '2025-06-10', '2025-06-12', NULL, 1, 6, 1, 101), -- 2 days, packageID = 1 (1-day ski pass)
     ('pending', 'unpayed', '2025-07-01', '2025-07-05', NULL, 1, 7, 6, 202), -- 4 days, packageID = 6 (2-day ski pass)

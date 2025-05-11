@@ -10,10 +10,10 @@ ENV MARIADB_ROOT_PASSWORD=rootpass
 COPY requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-COPY Ski_Hotel_Init.py /docker-entrypoint-initdb.d/Ski_Hotel_Init.py
-COPY run_init_py.sh /docker-entrypoint-initdb.d/run_init_py.sh
+COPY ski_hotel_init.py /docker-entrypoint-initdb.d/ski_hotel_init.py
+COPY ski_hotel_init_wrapper.sh /docker-entrypoint-initdb.d/ski_hotel_init_wrapper.sh
 
 EXPOSE 3306
 
-RUN dos2unix /docker-entrypoint-initdb.d/run_init_py.sh && \
-    chmod +x /docker-entrypoint-initdb.d/run_init_py.sh
+RUN dos2unix /docker-entrypoint-initdb.d/ski_hotel_init_wrapper.sh && \
+    chmod +x /docker-entrypoint-initdb.d/ski_hotel_init_wrapper.sh

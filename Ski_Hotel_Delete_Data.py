@@ -25,7 +25,7 @@ if cur.fetchone():
     # Disabling foreign key checks for truncating all tables
     cur.execute("SET FOREIGN_KEY_CHECKS = 0;")
 
-    tables = ["packageTransport", "reservation", "package", "skiPass", "skiResort", "reservation", "paymentInfo", "transport", "room", "customer", "hotel"]
+    tables = ["PackagesTransports", "Reservations", "Packages", "SkiPasses", "SkiResorts", "BusinessHours", "PaymentInfos", "Transports", "Rooms", "Customers", "Hotel"]
 
     for table in tables:
         cur.execute(f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'SkiHotelDB' AND TABLE_NAME = '{table}';")
