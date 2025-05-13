@@ -46,15 +46,6 @@ CREATE TABLE IF NOT EXISTS SkiResorts (
     businessHours TEXT
 );
 
-CREATE TABLE IF NOT EXISTS BusinessHours (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    resortID INT,
-    day_of_week ENUM('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'),
-    open_time TIME,
-    close_time TIME,
-    FOREIGN KEY (resortID) REFERENCES SkiResorts(resortID)
-);
-
 CREATE TABLE IF NOT EXISTS SkiPasses (
     skiPassID INT AUTO_INCREMENT PRIMARY KEY,
     resortID INT,
