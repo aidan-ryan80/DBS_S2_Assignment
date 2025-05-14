@@ -58,9 +58,7 @@ if cursor.fetchone():
     print("Find the most often booked package:")
     print(tabulate(all_rows, headers=headers, tablefmt='psql'))
     print()
- 
-    # Created just now:
-    # SELECT R.reservationID, R.totalCost AS price_above_1000, R.status, R.paymentStatus, C.customerID, C.name FROM Reservations R JOIN Customers C ON R.customerID = C.customerID WHERE R.totalCost > 1000;
+
     # Retrieve all reservations with a total price above a certain threshold (in this case a total price more than 1000):
     threshold_price = 1000
     cursor.execute(f"""
@@ -71,31 +69,22 @@ if cursor.fetchone():
         """, (threshold_price,))
     all_rows = cursor.fetchall()
     headers = [desc[0] for desc in cursor.description]
-    print(
-        "Retrieve all reservations with a total price above a certain threshold (in this case a total price more than 1000):")
+    print("Retrieve all reservations with a total price above a certain threshold (in this case a total price more than 1000):")
     print(tabulate(all_rows, headers=headers, tablefmt='psql'))
     print()
-
-    # ? How come this query give me 6426.00 as total reservation revenue between the defined dates?
-    # SELECT SUM(R.totalCost) FROM Reservations R WHERE paymentStatus = "payed" AND checkOutDate BETWEEN "2025-05-01" AND "2026-01-01"; FOR reservation revenue
-    # SELECT SUM(R.totalCost) FROM Reservations R WHERE paymentStatus = "payed" AND checkOutDate BETWEEN "2025-05-01" AND "2026-01-01" AND R.packageID IS NOT NULL; FOR package revenue
 
     # Find the total revenue from package sales within a predefined date range (in this case between 2025-05-01 and 2026-01-01):
     lower_date_range = '2025-05-01'
     upped_date_range = '2026-01-01'
     cursor.execute("""
-        SELECT COALESCE(SUM(package_prices), 0) AS packages_total_revenue, COALESCE(SUM(reservations_total_costs), 0)  AS reservations_total_revenue
-        FROM (SELECT p.price AS package_prices, r.totalCost AS reservations_total_costs
-        FROM Customers c
-        JOIN Reservations r ON r.customerID = c.customerID
-        JOIN Packages p ON r.packageID = p.packageID
-        WHERE r.status != 'cancelled' AND r.status != 'unpayed' AND r.checkInDate >= ? AND r.checkOutDate <= ?)
-        AS packages;
+        SELECT SUM(R.totalCost) AS total_revenue_packages_sold
+        FROM Reservations R 
+        JOIN Packages P on R.packageID = P.packageID
+        WHERE R.paymentStatus = "payed" AND R.checkInDate BETWEEN ? AND ?
         """, (lower_date_range, upped_date_range))
     all_rows = cursor.fetchall()
     headers = [desc[0] for desc in cursor.description]
-    print(
-        "Find the total revenue from package sales within a predefined date range (in this case between 2025-05-01 and 2026-01-01):")
+    print("Find the total revenue from package sales within a predefined date range (in this case between 2025-05-01 and 2026-01-01):")
     print(tabulate(all_rows, headers=headers, tablefmt='psql'))
     print()
 
@@ -103,23 +92,23 @@ if cursor.fetchone():
     cursor.execute("""
         SELECT * FROM (
         SELECT rm.roomNumber AS most_used_room, rm.price AS most_used_room_price,
-        COUNT(*) AS room_usage
+        COUNT(*) AS most_used_room_usage
         FROM Customers c
         JOIN Reservations r ON r.customerID = c.customerID
         JOIN Rooms rm ON r.roomID = rm.roomNumber
         WHERE r.status = 'completed'
         GROUP BY rm.roomNumber
-        ORDER BY room_usage DESC
+        ORDER BY most_used_room_usage DESC
         LIMIT 1) AS most_frequently_used
         JOIN 
         (SELECT rm.roomNumber AS least_used_room, rm.price AS least_used_room_price,
-        COUNT(*) AS room_usage
+        COUNT(*) AS least_used_room_usage
         FROM Customers c
         JOIN Reservations r ON r.customerID = c.customerID
         JOIN Rooms rm ON r.roomID = rm.roomNumber
         WHERE r.status = 'completed'
         GROUP BY rm.roomNumber
-        ORDER BY room_usage ASC
+        ORDER BY least_used_room_usage ASC
         LIMIT 1) AS least_frequently_used;
         """)
     all_rows = cursor.fetchall()
@@ -207,23 +196,11 @@ if cursor.fetchone():
     cursor.execute("""
     SELECT COALESCE(SUM(R.totalCost), 0) AS Financial_year_2025_income
     FROM Reservations R 
-    WHERE R.paymentStatus = "payed" AND  checkInDate BETWEEN '2025-01-01' AND '2025-12-31';
+    WHERE R.paymentStatus = "payed" AND checkInDate BETWEEN '2025-01-01' AND '2025-12-31';
     """)
     all_rows = cursor.fetchall()
     headers = [desc[0] for desc in cursor.description]
     print("Financial Year 2025 Income:")
-    print(tabulate(all_rows, headers=headers, tablefmt='psql'))
-    print()
-
-    # Total amount not payed yet for Reservations
-    cursor.execute("""
-    SELECT COALESCE(SUM(R.totalCost), 0) AS reservations_unpaid_total_amount
-    FROM Reservations R 
-    WHERE R.paymentStatus = "unpayed" OR R.paymentStatus = "failed";
-    """)
-    all_rows = cursor.fetchall()
-    headers = [desc[0] for desc in cursor.description]
-    print("Total amount not payed yet for Reservations")
     print(tabulate(all_rows, headers=headers, tablefmt='psql'))
     print()
 else:
@@ -231,5 +208,3 @@ else:
 
 cursor.close()
 conn.close()
-
-# TODO: Change confirmed reservations to payed
