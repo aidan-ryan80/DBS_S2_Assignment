@@ -34,14 +34,14 @@ SELECT SUM(R.totalCost)
 FROM Reservations R 
 WHERE R.paymentStatus = "unpayed" OR R.paymentStatus = "failed"; -- 32374.00
 
--- List all customers who have booked a skipass as part of at least one of their future reservations, sorted by the (combined) number of nights of their reservations (descending).
+-- List all customers who have booked a skipass as part of at least one of their future reservations, sorted by the (combined) number of nights of their reservations (descending):
 SELECT r.status, r.checkInDate, r.checkOutDate, c.name, r.packageID 
 FROM reservation r 
 JOIN customer c ON r.customerID = c.customerID
 WHERE r.status = 'confirmed' AND r.paymentStatus = 'payed'
 ORDER BY DATEDIFF(r.checkOutDate, r.checkInDate) DESC;
 
--- Find the most often booked package.
+-- Find the most often booked package:
 SELECT p.packageID, p.name, 
 COUNT(*) AS package_booking_count
 FROM customer c
@@ -52,13 +52,13 @@ GROUP BY p.packageID
 ORDER BY package_booking_count DESC
 LIMIT 1;
 
--- Retrieve all reservations with a total price above a certain threshold.
+-- Retrieve all reservations with a total price above a certain threshold:
 SELECT r.reservationID, r.totalCost, r.status, r.paymentStatus, c.customerID, c.name
 FROM customer c
 JOIN reservation r ON r.customerID = c.customerID
 WHERE r.totalCost > 1000;
 
--- Find the total revenue from package sales within a predefined date range.
+-- Find the total revenue from package sales within a predefined date range:
 SELECT SUM(package_prices) AS packages_total_revenue, SUM(reservations_total_costs) AS reservations_total_revenue
 FROM (SELECT p.price AS package_prices, r.totalCost AS reservations_total_costs
 FROM customer c
@@ -74,7 +74,7 @@ JOIN reservation r ON r.customerID = c.customerID
 JOIN package p ON r.packageID = p.packageID
 WHERE r.checkInDate >= '2024-01-01' AND r.checkOutDate <= '2030-01-01';
 
--- The most frequently used room vs the least frequently used room
+-- The most frequently used room vs the least frequently used room:
 SELECT * FROM (
 SELECT rm.roomNumber, rm.floor, rm.type, rm.price,
 COUNT(*) AS room_usage
