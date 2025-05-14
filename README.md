@@ -70,6 +70,21 @@ This assignment involves developing a **MariaDB database** for a hotel that spec
 
 ---
 
+## 📦 Python Dependencies
+
+Before running any Python scripts, install the required packages:
+
+```bash
+pip install mariadb
+pip install tabulate
+```
+
+These are needed for:
+- Connecting to the MariaDB database (`mariadb`)
+- Displaying query results in table format (`tabulate`)
+
+---
+
 ## 🧠 About the Database Design
 
 ### Trigger Logic
