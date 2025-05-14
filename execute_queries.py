@@ -3,8 +3,6 @@ import mariadb
 import sys
 from tabulate import tabulate
 
-# py -m pip install tabulate
-
 # Connect to MariaDB
 try:
     conn = mariadb.connect(
