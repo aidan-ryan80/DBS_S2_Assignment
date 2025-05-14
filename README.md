@@ -20,7 +20,7 @@ This assignment involves developing a **MariaDB database** for a hotel that spec
    - This uses the MariaDB 10.3 image and initializes the database using the `.sql` files in the `init/` directory (executed in alphabetical order).
 3. To enter the MariaDB shell:  
    ```bash
-   docker exec -it <container-name> mysql -u root -p
+   docker exec -it SkiHotelDB_01 mysql -u root -p
    ```
    - Password: `rootpass` (defined in `docker-compose.yml`)
    - The `SkiHotelDB` database will already exist and be accessible.
