@@ -15,22 +15,25 @@ except mariadb.Error as e:
     sys.exit(1)
 
 # Getting a Cursor
-cur = conn.cursor()
+cursor = conn.cursor()
 
 # Checking if the SkiHotelDB exists
-cur.execute("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'SkiHotelDB';")
-if cur.fetchone():
-    cur.execute("USE SkiHotelDB;")
+cursor.execute("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'SkiHotelDB';")
+if cursor.fetchone():
+    cursor.execute("USE SkiHotelDB;")
 
     # Disabling foreign key checks for truncating all tables
-    cur.execute("SET FOREIGN_KEY_CHECKS = 0;")
+    cursor.execute("SET FOREIGN_KEY_CHECKS = 0;")
 
     tables = ["PackagesTransports", "Reservations", "Packages", "SkiPasses", "SkiResorts", "BusinessHours", "PaymentInfos", "Transports", "Rooms", "Customers", "Hotel"]
 
     for table in tables:
-        cur.execute(f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'SkiHotelDB' AND TABLE_NAME = '{table}';")
-        if cur.fetchone():
-            cur.execute(f"TRUNCATE TABLE `{table}`;")
+        cursor.execute(f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'SkiHotelDB' AND TABLE_NAME = '{table}';")
+        if cursor.fetchone():
+            cursor.execute(f"TRUNCATE TABLE `{table}`;")
 
 else:
     print("\nDatabase SkiHotelDB does not exist\n")
+
+cursor.close()
+conn.close()

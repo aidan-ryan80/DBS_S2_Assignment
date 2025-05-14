@@ -85,6 +85,26 @@ These are needed for:
 
 ---
 
+## ▶️ Running Python Scripts
+
+To execute any of the included Python files, use the following command format:
+
+```bash
+python filename.py
+```
+
+Examples:
+```bash
+python execute_queries.py
+python ski_hotel_init.py
+python ski_hotel_delete_data.py
+python ski_hotel_reset.py
+```
+
+Ensure the MariaDB container is running before executing these scripts.
+
+---
+
 ## 🧠 About the Database Design
 
 ### Trigger Logic

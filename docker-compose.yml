@@ -1,7 +1,7 @@
 services:
   mariadb:
     image: mariadb:10.3
-    container_name: Ski-Hotel-DB-01
+    container_name: SkiHotelDB_01
     restart: no
     environment:
       MARIADB_ROOT_PASSWORD: rootpass

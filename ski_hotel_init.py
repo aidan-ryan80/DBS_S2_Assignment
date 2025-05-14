@@ -548,5 +548,8 @@ else:
     create_tables(cursor)
     enter_data(cursor)
     conn.commit()
-
+    
     print("\nSuccessfully created the SkiHotelDB Database and created required tables if they did not exist\n")
+
+cursor.close()
+conn.close()

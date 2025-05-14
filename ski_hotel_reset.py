@@ -34,3 +34,6 @@ if cur.fetchone():
     print("\nDropped all of the tables in the SkiHotelDB if they existed\n")
 else:
     print("\nDatabase SkiHotelDB does not exist\n")
+
+cursor.close()
+conn.close()
