@@ -26,7 +26,7 @@ if cursor.fetchone():
     cursor.execute("USE SkiHotelDB;")
     print()
 
-    # List all customers who have booked a skipass as part of at least one of their future reservations, sorted by the (combined) number of nights of their reservations (descending):
+    # List all customers who have booked a skipass as part of at least one of their future reservations (current date), sorted by the (combined) number of nights of their reservations (descending):
     cursor.execute("""
         SELECT c.customerID, c.name, SUM(DATEDIFF(r.checkOutDate, r.checkInDate)) AS total_nights, CURRENT_DATE AS as_of
         FROM Reservations r 
@@ -67,7 +67,7 @@ if cursor.fetchone():
         FROM Customers c
         JOIN Reservations r ON r.customerID = c.customerID
         WHERE r.totalCost > ?;
-        """, (threshold_price)) #!
+        """, (threshold_price)) # !
     all_rows = cursor.fetchall()
     headers = [desc[0] for desc in cursor.description]
     print(
@@ -75,6 +75,10 @@ if cursor.fetchone():
     print(tabulate(all_rows, headers=headers, tablefmt='psql'))
     print()
 
+    # ? How come this query give me 6426.00 as total reservation revenue between the defined dates?
+    # SELECT SUM(R.totalCost) FROM Reservations R WHERE paymentStatus = "payed" AND checkOutDate BETWEEN "2025-05-01" AND "2026-01-01"; FOR reservation revenue
+    # SELECT SUM(R.totalCost) FROM Reservations R WHERE paymentStatus = "payed" AND checkOutDate BETWEEN "2025-05-01" AND "2026-01-01" AND R.packageID IS NOT NULL; FOR package revenue
+    
     # Find the total revenue from package sales within a predefined date range (in this case between 2025-05-01 and 2026-01-01):
     lower_date_range = '2025-05-01'
     upped_date_range = '2026-01-01'
@@ -84,7 +88,7 @@ if cursor.fetchone():
         FROM Customers c
         JOIN Reservations r ON r.customerID = c.customerID
         JOIN Packages p ON r.packageID = p.packageID
-        WHERE r.status != 'cancelled' AND r.checkInDate >= ? AND r.checkOutDate <= ?)
+        WHERE r.status != 'cancelled' AND r.status != 'unpayed' AND r.checkInDate >= ? AND r.checkOutDate <= ?)
         AS packages;
         """, (lower_date_range, upped_date_range))
     all_rows = cursor.fetchall()
@@ -226,3 +230,5 @@ else:
 
 cursor.close()
 conn.close()
+
+# TODO: Change confirmed reservations to payed
