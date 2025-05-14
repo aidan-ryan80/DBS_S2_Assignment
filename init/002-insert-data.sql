@@ -311,4 +311,4 @@ VALUES
     ('no_show', 'unpayed', '2025-07-01', '2025-07-05', NULL, 1, 29, NULL, 405), -- 4 days, no package
     ('confirmed', 'payed', '2025-08-01', '2025-08-05', NULL, 1, 30, 10, 302); -- 5 days, packageID = 10 (1-day ski pass)
 
-    COMMIT;
+COMMIT;

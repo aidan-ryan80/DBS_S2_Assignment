@@ -59,7 +59,9 @@ if cursor.fetchone():
     print("Find the most often booked package:")
     print(tabulate(all_rows, headers=headers, tablefmt='psql'))
     print()
-
+ 
+    # Created just now:
+    # SELECT R.reservationID, R.totalCost AS price_above_1000, R.status, R.paymentStatus, C.customerID, C.name FROM Reservations R JOIN Customers C ON R.customerID = C.customerID WHERE R.totalCost > 1000;
     # Retrieve all reservations with a total price above a certain threshold (in this case a total price more than 1000):
     threshold_price = 1000
     cursor.execute(f"""
