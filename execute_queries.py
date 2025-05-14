@@ -60,16 +60,13 @@ if cursor.fetchone():
     print(tabulate(all_rows, headers=headers, tablefmt='psql'))
     print()
  
-    # Created just now:
     # SELECT R.reservationID, R.totalCost AS price_above_1000, R.status, R.paymentStatus, C.customerID, C.name FROM Reservations R JOIN Customers C ON R.customerID = C.customerID WHERE R.totalCost > 1000;
     # Retrieve all reservations with a total price above a certain threshold (in this case a total price more than 1000):
     threshold_price = 1000
     cursor.execute(f"""
-        SELECT r.reservationID, r.totalCost AS price(above_1000), r.status, r.paymentStatus, c.customerID, c.name
-        FROM Customers c
-        JOIN Reservations r ON r.customerID = c.customerID
-        WHERE r.totalCost > ?;
-        """, (threshold_price)) # !
+        SELECT R.reservationID, R.totalCost AS price_above_1000, R.status, R.paymentStatus, C.customerID, C.name FROM Reservations R 
+        JOIN Customers C ON R.customerID = C.customerID WHERE R.totalCost > ?;
+        """, (threshold_price,))
     all_rows = cursor.fetchall()
     headers = [desc[0] for desc in cursor.description]
     print(
@@ -77,10 +74,7 @@ if cursor.fetchone():
     print(tabulate(all_rows, headers=headers, tablefmt='psql'))
     print()
 
-    # ? How come this query give me 6426.00 as total reservation revenue between the defined dates?
-    # SELECT SUM(R.totalCost) FROM Reservations R WHERE paymentStatus = "payed" AND checkOutDate BETWEEN "2025-05-01" AND "2026-01-01"; FOR reservation revenue
-    # SELECT SUM(R.totalCost) FROM Reservations R WHERE paymentStatus = "payed" AND checkOutDate BETWEEN "2025-05-01" AND "2026-01-01" AND R.packageID IS NOT NULL; FOR package revenue
-    
+    # SELECT SUM(R.totalCost) FROM Reservations R JOIN Packages P ON R.packageID = P.packageID WHERE R.checkInDate BETWEEN "2025-05-01" AND "2026-01-01" AND R.paymentStatus = "payed";
     # Find the total revenue from package sales within a predefined date range (in this case between 2025-05-01 and 2026-01-01):
     lower_date_range = '2025-05-01'
     upped_date_range = '2026-01-01'
@@ -147,7 +141,7 @@ if cursor.fetchone():
     SELECT DISTINCT C.customerID, C.email, C.phoneNumber, C.name, C.age, C.address
     FROM Customers C 
     JOIN Reservations R ON R.customerID = C.CustomerID 
-    WHERE R.paymentStatus = "unpayed"
+    WHERE R.paymentStatus = "unpayed" OR R.paymentStatus = "failed"
     ORDER BY C.customerID;
     """)
     all_rows = cursor.fetchall()
@@ -213,18 +207,6 @@ if cursor.fetchone():
     all_rows = cursor.fetchall()
     headers = [desc[0] for desc in cursor.description]
     print("Financial Year 2025 Income:")
-    print(tabulate(all_rows, headers=headers, tablefmt='psql'))
-    print()
-
-    # Total amount not payed yet for Reservations
-    cursor.execute("""
-    SELECT COALESCE(SUM(R.totalCost), 0) AS reservations_unpaid_total_amount
-    FROM Reservations R 
-    WHERE R.paymentStatus = "unpayed" OR R.paymentStatus = "failed";
-    """)
-    all_rows = cursor.fetchall()
-    headers = [desc[0] for desc in cursor.description]
-    print("Total amount not payed yet for Reservations")
     print(tabulate(all_rows, headers=headers, tablefmt='psql'))
     print()
 else:
