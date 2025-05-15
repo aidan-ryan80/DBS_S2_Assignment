@@ -26,7 +26,7 @@ This assignment involves developing a **MariaDB database** for a hotel that spec
    - The `SkiHotelDB` database will already exist and be accessible.
 4. Python scripts included in the repo:
    - `ski_hotel_init.py`: creates all tables and inserts initial data.
-   - `ski_hotel_queries.py`: sample queries for testing the database.
+   - `execute_queries.py`: sample queries for testing the database.
    - `ski_hotel_delete_data.py`: truncates all tables.
    - `ski_hotel_reset.py`: drops all tables.
 5. To stop and clean up:
