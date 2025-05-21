@@ -12,7 +12,30 @@ services:
       - "3306:3306"
     volumes:
       - ./init:/docker-entrypoint-initdb.d  # SQL files will be added here to be run when the container is created
-      - hoteldb_data_volume:/var/lib/mysql
+      - mariadb_data:/var/lib/mysql
+  
+  timescaledb:
+    image: timescale/timescaledb:latest-pg17
+    container_name: SkiHotelPSQLDB
+    environment:
+      POSTGRES_PASSWORD: superpass
+      POSTGRES_DB: testDB
+    ports:
+      - "5433:5432"
+    volumes:
+      - timescaledb_data:/var/lib/postgresql/data
+
+  pgloader:
+    image: dimitri/pgloader
+    container_name: pgloader
+    depends_on:
+      - mariadb
+      - timescaledb
+    volumes:
+      - ./migrate.load:/mnt/migrate.load
+      - ./start.sh:/start.sh
+    entrypoint: ["sh", "/start.sh"]
 
 volumes:
-  hoteldb_data_volume:
+  mariadb_data:
+  timescaledb_data:
