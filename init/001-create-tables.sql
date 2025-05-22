@@ -27,6 +27,18 @@ CREATE TABLE IF NOT EXISTS PaymentInfos (
     FOREIGN KEY (customerID) REFERENCES Customers(customerID)
 );
 
+CREATE TABLE IF NOT EXISTS PaymentInfos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    customerID INT,
+    paymentMethod ENUM('PayPal', 'Stripe', 'Visa', 'SEPA'),
+    billingAddress VARCHAR(100) NOT NULL,
+    cardHolderName VARCHAR(100) NOT NULL,
+    expirationDate DATE NOT NULL,
+    cardIssuer VARCHAR(20) NOT NULL,
+    cardNumber VARCHAR(19) NOT NULL UNIQUE,
+    FOREIGN KEY (customerID) REFERENCES Customers(customerID)
+);
+
 CREATE TABLE IF NOT EXISTS Rooms (
     roomNumber SMALLINT(3) NOT NULL PRIMARY KEY,
     price DECIMAL(10, 2) NOT NULL CHECK (price > 0),
@@ -56,11 +68,11 @@ CREATE TABLE IF NOT EXISTS SkiPasses (
 
 CREATE TABLE IF NOT EXISTS Packages (
     packageID INT PRIMARY KEY AUTO_INCREMENT,
+    skiPassID INT,
     name VARCHAR(100) NOT NULL,
     description TEXT,
     price DECIMAL(10, 2) CHECK (price > 0),
     roomID SMALLINT(3),
-    skiPassID INT,
     FOREIGN KEY(roomID) REFERENCES Rooms(roomNumber),
     FOREIGN KEY(skiPassID) REFERENCES SkiPasses(skiPassID)
 );
@@ -123,15 +135,15 @@ DELIMITER ;
 
 CREATE TABLE IF NOT EXISTS Reservations (
     reservationID INT PRIMARY KEY AUTO_INCREMENT,
+    hotelID INT,
+    customerID INT,
+    packageID INT DEFAULT NULL,
+    roomID SMALLINT(3),
     status ENUM('pending', 'confirmed', 'cancelled', 'completed', 'no_show') NOT NULL,
     paymentStatus ENUM('payed', 'unpayed', 'failed') NOT NULL,
     checkInDate DATE NOT NULL,
     checkOutDate DATE NOT NULL,
     totalCost DECIMAL(10, 2) CHECK (totalCost > 0),
-    hotelID INT,
-    customerID INT,
-    packageID INT DEFAULT NULL,
-    roomID SMALLINT(3),
     FOREIGN KEY (hotelID) REFERENCES Hotel(hotelID),
     FOREIGN KEY (customerID) REFERENCES Customers(customerID),
     FOREIGN KEY (packageID) REFERENCES Packages(packageID),

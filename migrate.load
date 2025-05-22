@@ -1,8 +1,14 @@
 LOAD DATABASE
-     FROM mysql://root:rootpass@mariadb/SkiHotelDB
-     INTO postgresql://postgres:superpass@timescaledb/testDB
+    FROM mysql://root:rootpass@mariadb/SkiHotelDB
+    INTO postgresql://postgres:superpass@timescaledb/testDB
 
- WITH include drop, create tables, create indexes, reset sequences
- SET work_mem to '128MB', maintenance_work_mem to '512 MB'
- CAST type datetime to timestamptz
-     drop default drop not null using zero-dates-to-null;
+WITH include drop, create tables, create indexes, reset sequences
+
+SET work_mem to '128MB', 
+    maintenance_work_mem to '512 MB', 
+    search_path TO 'public'
+
+ALTER TABLE NAMES MATCHING ~/^.*$/ SET SCHEMA 'public'
+
+CAST type datetime to timestamptz
+    drop default drop not null using zero-dates-to-null;

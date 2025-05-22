@@ -8,6 +8,11 @@ services:
       MARIADB_DATABASE: SkiHotelDB
       MARIADB_USER: casualuser
       MARIADB_PASSWORD: casualpass
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-prootpass"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     ports:
       - "3306:3306"
     volumes:
@@ -20,6 +25,11 @@ services:
     environment:
       POSTGRES_PASSWORD: superpass
       POSTGRES_DB: testDB
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     ports:
       - "5433:5432"
     volumes:
@@ -29,12 +39,34 @@ services:
     image: dimitri/pgloader
     container_name: pgloader
     depends_on:
-      - mariadb
-      - timescaledb
+      mariadb:
+        condition: service_healthy
+      timescaledb:
+        condition: service_healthy
     volumes:
       - ./migrate.load:/mnt/migrate.load
       - ./start.sh:/start.sh
-    entrypoint: ["sh", "/start.sh"]
+    entrypoint: ["pgloader", "/mnt/migrate.load"]
+
+  psql-runner:
+    image: postgres:15
+    container_name: psql_runner
+    depends_on:
+      pgloader:
+        condition: service_completed_successfully
+    volumes:
+      - ./post_migration:/scripts  # Your custom SQL files
+    entrypoint: ["/bin/bash", "-c"]
+    command: >
+      "
+      echo 'Waiting for TimescaleDB to be ready...';
+      until pg_isready -h timescaledb -U postgres; do sleep 2; done;
+      echo 'Running post-migration SQL...';
+      psql -h timescaledb -U postgres -d testDB -f /scripts/post_migration.sql;
+      echo 'Post-migration SQL done.';
+      "
+    environment:
+      PGPASSWORD: superpass
 
 volumes:
   mariadb_data:
