@@ -27,19 +27,6 @@ CREATE TABLE IF NOT EXISTS PaymentInfos (
     FOREIGN KEY (customerID) REFERENCES Customers(customerID)
 );
 
--- CREATE TABLE IF NOT EXISTS PaymentInfos (
---     id INT AUTO_INCREMENT PRIMARY KEY,
---     customerID INT,
---     paymentMethod ENUM('PayPal', 'Stripe', 'Visa', 'SEPA'),
-    
---     billingAddress VARCHAR(100) NOT NULL,
---     cardHolderName VARCHAR(100) NOT NULL,
---     expirationDate DATE NOT NULL,
---     cardIssuer VARCHAR(20) NOT NULL,
---     cardNumber VARCHAR(19) NOT NULL UNIQUE,
---     FOREIGN KEY (customerID) REFERENCES Customers(customerID)
--- );
-
 CREATE TABLE IF NOT EXISTS Rooms (
     roomNumber SMALLINT(3) NOT NULL PRIMARY KEY,
     price DECIMAL(10, 2) NOT NULL CHECK (price > 0),
