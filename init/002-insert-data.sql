@@ -93,7 +93,7 @@ VALUES
 (1, '7 Day Pass', 280.00), -- 7
 
 -- Snowbird (Advanced)
-(2, 'Da7y Pass', 65.00),
+(2, 'Day Pass', 65.00),
 (2, '2 Day Pass', 125.00),
 (2, '3 Day Pass', 180.00), -- 10
 (2, '4 Day Pass', 230.00),

@@ -48,26 +48,34 @@ services:
       - ./start.sh:/start.sh
     entrypoint: ["pgloader", "/mnt/migrate.load"]
 
-  psql-runner:
-    image: postgres:15
-    container_name: psql_runner
+  simulator:
+    build: ./simulator
+    container_name: simulator
     depends_on:
       pgloader:
         condition: service_completed_successfully
-    volumes:
-      - ./post_migration:/scripts  # Your custom SQL files
-    entrypoint: ["/bin/bash", "-c"]
-    command: >
-      "
-      echo 'Waiting for TimescaleDB to be ready...';
-      until pg_isready -h timescaledb -U postgres; do sleep 2; done;
-      echo 'Running post-migration SQL...';
-      psql -h timescaledb -U postgres -d testDB -f /scripts/post_migration.sql;
-      echo 'Post-migration SQL done.';
-      "
-    environment:
-      PGPASSWORD: superpass
+    command: bash -c "python3 post_migration.py && python3 simulator.py"
 
 volumes:
   mariadb_data:
   timescaledb_data:
+
+  # psql-runner:
+  #   image: postgres:15
+  #   container_name: psql_runner
+  #   depends_on:
+  #     pgloader:
+  #       condition: service_completed_successfully
+  #   volumes:
+  #     - ./post_migration:/scripts  # Your custom SQL files
+  #   entrypoint: ["/bin/bash", "-c"]
+  #   command: >
+  #     "
+  #     echo 'Waiting for TimescaleDB to be ready...';
+  #     until pg_isready -h timescaledb -U postgres; do sleep 2; done;
+  #     echo 'Running post-migration SQL...';
+  #     psql -h timescaledb -U postgres -d testDB -f /scripts/post_migration.sql;
+  #     echo 'Post-migration SQL done.';
+  #     "
+  #   environment:
+  #     PGPASSWORD: superpass
