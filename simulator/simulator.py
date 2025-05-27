@@ -22,10 +22,9 @@ try:
             print("Connection successful, query result:", result)
 
             cursor.execute("""
-                           SELECT r.customerid, r.reservationid, p.skipassid, s.resortid, sr.name FROM reservations r 
-                           JOIN packages p ON r.packageid = p.packageid 
-                           JOIN skipasses s ON p.skipassid = s.skipassid 
-                           JOIN skiresorts sr ON s.resortid = sr.resortid;
+                           SELECT rsp.id, r.customerid, r.reservationid, rsp.resortid, sr.name, rsp.skipassid FROM res_ski_passes rsp 
+                           JOIN reservations r ON rsp.reservationid = r.reservationid 
+                           JOIN skiresorts sr ON rsp.resortid = sr.resortid;
                            """)
             ski_pass_data = cursor.fetchall()
 
@@ -34,21 +33,22 @@ try:
             
             batch_size: int = 10
             
-            for i in range(10000):
+            for i in range(30):
                 rand_scan = random.choice(ski_pass_data)
                 scan_data = {
-                    "customer_id": rand_scan[0],
-                    "reservation_id": rand_scan[1], 
-                    "skipass_id": rand_scan[2], 
+                    "res_skipass_id": rand_scan[0], 
+                    "customer_id": rand_scan[1],
+                    "reservation_id": rand_scan[2], 
                     "resort_id": rand_scan[3], 
                     "resort_name": rand_scan[4],
+                    "skipass_id": rand_scan[5],
                     "timestamp": datetime.now().isoformat()
                     }
                 print(json.dumps(scan_data))
                 
                 cursor.execute(
-                    "INSERT INTO skipass_scans (scan_time, skipassid, resortid, customerid, reservationid) VALUES (%s, %s, %s, %s, %s)",
-                    (scan_data["timestamp"], scan_data["skipass_id"], scan_data["resort_id"], scan_data["customer_id"], scan_data["reservation_id"]))
+                    "INSERT INTO skipass_scans (scan_time, res_skipass_id, resortid, customerid, reservationid) VALUES (%s, %s, %s, %s, %s)",
+                    (scan_data["timestamp"], scan_data["res_skipass_id"], scan_data["resort_id"], scan_data["customer_id"], scan_data["reservation_id"]))
                 
                 if i % batch_size == 0:
                     conn.commit()
