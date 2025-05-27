@@ -9,6 +9,9 @@ conn_info = {
 }
 
 # connection_uri = "postgres://postgres:superpass@localhost:5433/testDB"
+# TODO: Add changing the skipass table to this script
+# TODO: Continuous Aggregates Python Script
+# TODO: Explore and document the different chunks of your hypertable for different hypertable setups, using the following documentation
 
 try:
     with psycopg2.connect(**conn_info) as conn:

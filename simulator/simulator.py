@@ -53,7 +53,7 @@ try:
                 if i % batch_size == 0:
                     conn.commit()
                 
-                time.sleep(0.1)
+                time.sleep(1)
 
 except psycopg2.Error as e:
     print("Connection failed:", e)
