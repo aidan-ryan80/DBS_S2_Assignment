@@ -59,7 +59,7 @@ try:
                     refresh_cursor = refresh_conn.cursor()
                     try:
                         refresh_cursor.execute(
-                            "CALL refresh_continuous_aggregate('scans_per_user_reservation', NULL, NULL);")
+                            "CALL refresh_continuous_aggregate('scans_per_ten_seconds', NULL, NULL);")
                         print("Manually refreshed aggregate")
                     finally:
                         refresh_cursor.close()

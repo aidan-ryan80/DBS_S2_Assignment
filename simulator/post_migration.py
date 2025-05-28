@@ -62,7 +62,7 @@ try:
             cursor.execute("SELECT create_hypertable('skipass_scans', 'scan_time');")
 
             cursor.execute("""
-                CREATE MATERIALIZED VIEW skipasses_by_minute
+                CREATE MATERIALIZED VIEW scans_per_ten_seconds
                 WITH (timescaledb.continuous) AS 
                 SELECT 
                     time_bucket('10 seconds', scan_time) AS bucket,
