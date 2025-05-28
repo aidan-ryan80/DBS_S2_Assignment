@@ -12,7 +12,7 @@ conn_info = {
     "port": 5432
 }
 
-# connection_uri = "postgres://postgres:superpass@localhost:5433/testDB"
+connection_uri = "postgres://postgres:superpass@localhost:5433/testDB"
 
 try:
     with psycopg2.connect(**conn_info) as conn:
@@ -33,7 +33,7 @@ try:
             
             batch_size: int = 10
             
-            for i in range(30):
+            for i in range(1000):
                 rand_scan = random.choice(ski_pass_data)
                 scan_data = {
                     "res_skipass_id": rand_scan[0], 
@@ -52,7 +52,7 @@ try:
                 
                 if i % batch_size == 0:
                     conn.commit()
-                
+                    
                 time.sleep(1)
 
 except psycopg2.Error as e:
