@@ -8,15 +8,7 @@ conn_info = {
     "port": 5432
 }
 
-# For running the python script manually on the postgreSQL DB:
-# conn_info = {
-#     "dbname": "testDB",
-#     "user": "postgres",
-#     "password": "superpass",
-#     "host": "localhost",
-#     "port": 5433
-# }
-
+# For running the python script manually from our local machines to the postgreSQL DB:
 # connection_uri = "postgres://postgres:superpass@localhost:5433/testDB"
 
 # TODO: Add changing the skipass table to this script
@@ -69,22 +61,31 @@ try:
             
             cursor.execute("SELECT create_hypertable('skipass_scans', 'scan_time');")
 
-            # Create continuous aggregate
             cursor.execute("""
-                CREATE MATERIALIZED VIEW IF NOT EXISTS scans_per_user_reservation
-                WITH (timescaledb.continuous) AS
-                SELECT
+                CREATE MATERIALIZED VIEW skipasses_by_minute
+                WITH (timescaledb.continuous) AS 
+                SELECT 
                     time_bucket('10 seconds', scan_time) AS bucket,
-                    customerid,
-                    reservationid,
-                    COUNT(*) AS scan_count
-                FROM
-                    skipass_scans
-                GROUP BY bucket, customerid, reservationid
+                    rsp.passtype,
+                    rsp.skipassid,
+                    sr.name AS resort_name,
+                    sc.customerid,
+                    c.name AS customer_name,
+                    sc.reservationid,
+                    r.checkindate,
+                    r.checkoutdate
+                FROM 
+                    skipass_scans sc
+                JOIN res_ski_passes rsp ON sc.res_skipass_id = rsp.id
+                JOIN skiresorts sr ON sc.resortid = sr.resortid
+                JOIN customers c ON sc.customerid = c.customerid
+                JOIN reservations r ON sc.reservationid = r.reservationid
+                GROUP BY bucket, rsp.passtype, rsp.skipassid, sr.name, sc.customerid, c.name, sc.reservationid, r.checkindate, r.checkoutdate
                 WITH NO DATA;
             """)
             print("Created continuous aggregate")
-
+            
+            # cursor.execute("SELECT add_continuous_aggregate_policy('skipasses_by_minute', start_offset => INTERVAL '1 hour', end_offset => INTERVAL '10 seconds', schedule_interval => INTERVAL '10 seconds');")
             conn.commit()
 except psycopg2.Error as e:
     print("Connection failed:", e)
