@@ -22,10 +22,10 @@ try:
             print("Connection successful, query result:", result)
 
             cursor.execute("""
-                           SELECT rsp.id, r.customerid, r.reservationid, rsp.resortid, sr.name, rsp.skipassid FROM res_ski_passes rsp 
-                           JOIN reservations r ON rsp.reservationid = r.reservationid 
-                           JOIN skiresorts sr ON rsp.resortid = sr.resortid;
-                           """)
+                SELECT rsp.id, r.customerid, r.reservationid, rsp.resortid, sr.name, rsp.skipassid FROM res_ski_passes rsp 
+                JOIN reservations r ON rsp.reservationid = r.reservationid 
+                JOIN skiresorts sr ON rsp.resortid = sr.resortid;
+            """)
             ski_pass_data = cursor.fetchall()
 
             if not ski_pass_data:
@@ -52,7 +52,19 @@ try:
                 
                 if i % batch_size == 0:
                     conn.commit()
-                
+
+                    # Manually refresh aggregate outside of transaction block
+                    refresh_conn = psycopg2.connect(**conn_info)
+                    refresh_conn.autocommit = True
+                    refresh_cursor = refresh_conn.cursor()
+                    try:
+                        refresh_cursor.execute(
+                            "CALL refresh_continuous_aggregate('scans_per_user_reservation', NULL, NULL);")
+                        print("Manually refreshed aggregate")
+                    finally:
+                        refresh_cursor.close()
+                        refresh_conn.close()
+
                 time.sleep(1)
 
 except psycopg2.Error as e:
