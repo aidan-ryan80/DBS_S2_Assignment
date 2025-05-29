@@ -83,8 +83,12 @@ try:
                 GROUP BY bucket, rsp.passtype, rsp.skipassid, sr.name, sc.customerid, c.name, sc.reservationid, r.checkindate, r.checkoutdate
                 WITH NO DATA;
             """)
+
+            # Enabling real time aggregation
+            cursor.execute("ALTER MATERIALIZED VIEW scans_per_ten_seconds set (timescaledb.materialized_only = false);")
             print("Created continuous aggregate")
             
+            # Outdated continuous aggregate refresh policy:
             # cursor.execute("SELECT add_continuous_aggregate_policy('skipasses_by_minute', start_offset => INTERVAL '1 hour', end_offset => INTERVAL '10 seconds', schedule_interval => INTERVAL '10 seconds');")
             conn.commit()
 except psycopg2.Error as e:

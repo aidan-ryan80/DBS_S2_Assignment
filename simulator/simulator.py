@@ -53,19 +53,20 @@ try:
                 if i % batch_size == 0:
                     conn.commit()
 
-                    # Manually refresh aggregate outside of transaction block
-                    refresh_conn = psycopg2.connect(**conn_info)
-                    refresh_conn.autocommit = True
-                    refresh_cursor = refresh_conn.cursor()
-                    try:
-                        refresh_cursor.execute(
-                            "CALL refresh_continuous_aggregate('scans_per_ten_seconds', NULL, NULL);")
-                        print("Manually refreshed aggregate")
-                    finally:
-                        refresh_cursor.close()
-                        refresh_conn.close()
+                    # * Commented the manual refresh out because I enabled real-time aggregation by running the SQL code on line 87 in post_migration.py
+                    # # Manually refresh aggregate outside of transaction block
+                    # refresh_conn = psycopg2.connect(**conn_info)
+                    # refresh_conn.autocommit = True
+                    # refresh_cursor = refresh_conn.cursor()
+                    # try:
+                    #     refresh_cursor.execute(
+                    #         "CALL refresh_continuous_aggregate('scans_per_ten_seconds', NULL, NULL);")
+                    #     print("Manually refreshed aggregate")
+                    # finally:
+                    #     refresh_cursor.close()
+                    #     refresh_conn.close()
 
-                #time.sleep(1)
+                time.sleep(0.01)
                 # Sleep time extinguished for testing purposes (will be turned on again later)
 
 except psycopg2.Error as e:
