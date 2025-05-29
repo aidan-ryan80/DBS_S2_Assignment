@@ -8,19 +8,6 @@ conn_info = {
     "port": 5432
 }
 
-# For running the python script manually from our local machines to the postgreSQL DB:
-# connection_uri = "postgres://postgres:superpass@localhost:5433/testDB"
-
-# TODO: Add changing the skipass table to this script
-# * Ended up doing:
-# Created a res_ski_passes table that has a unique ski pass for each reservation. The data from the database is queried and a copy of the ski pass associated with the reservation is made 
-# with the unique reservation id added onto it to be able to distinguish between different reservations having the same package and thus the same original ski pass.
-# The option recommended by Daniel would not have worked because adding a reservationid to each skipass would require a new ski pass to be added each time a reservation is made, 
-# which would have been redundant and required a trigger.
-
-# TODO: Continuous Aggregates Python Script
-# TODO: Explore and document the different chunks of your hypertable for different hypertable setups, using the following documentation
-
 try:
     with psycopg2.connect(**conn_info) as conn:
         with conn.cursor() as cursor:
@@ -87,9 +74,7 @@ try:
             # Enabling real time aggregation
             cursor.execute("ALTER MATERIALIZED VIEW scans_per_ten_seconds set (timescaledb.materialized_only = false);")
             print("Created continuous aggregate")
-            
-            # Outdated continuous aggregate refresh policy:
-            # cursor.execute("SELECT add_continuous_aggregate_policy('skipasses_by_minute', start_offset => INTERVAL '1 hour', end_offset => INTERVAL '10 seconds', schedule_interval => INTERVAL '10 seconds');")
+
             conn.commit()
 except psycopg2.Error as e:
     print("Connection failed:", e)

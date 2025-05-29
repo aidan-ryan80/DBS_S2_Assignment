@@ -1,4 +1,3 @@
-# Module Imports
 import mariadb
 from mariadb.constants import CLIENT
 import sys
@@ -41,8 +40,6 @@ def create_tables(cursor) -> None:
     );
     """)
 
-    # Apparently for payment only certified payment processors should store credit card numbers, CVV codes, Expiration dates, and cardholder names. 
-    # Instead token or ID's are stored and referenced. For now I will include payment information for the customer, and each reservation
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS PaymentInfos (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -113,7 +110,7 @@ def create_tables(cursor) -> None:
     );
     """)
 
-    # Junction table for the many to many relationship between package and transport
+    # Junction table for the many-to-many relationship between package and transport
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS PackagesTransports (
         packageID INT,

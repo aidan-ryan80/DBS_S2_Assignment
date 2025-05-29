@@ -1,4 +1,3 @@
-# Module Imports
 import mariadb
 import sys
 from tabulate import tabulate
