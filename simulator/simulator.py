@@ -2,7 +2,7 @@ import psycopg2
 import random
 import time
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 
 conn_info = {
     "dbname": "testDB",
@@ -32,7 +32,6 @@ try:
                 raise ValueError("No ski pass data found to simulate scans.")
             
             batch_size: int = 10
-            
             for i in range(1000):
                 rand_scan = random.choice(ski_pass_data)
                 scan_data = {
@@ -42,9 +41,9 @@ try:
                     "resort_id": rand_scan[3], 
                     "resort_name": rand_scan[4],
                     "skipass_id": rand_scan[5],
-                    "timestamp": datetime.now().isoformat()
+                    "timestamp": (datetime.now() + timedelta(hours=2)).isoformat()
                     }
-                print(json.dumps(scan_data))
+                print(f"Scan: {json.dumps(scan_data)}")
                 
                 cursor.execute(
                     "INSERT INTO skipass_scans (scan_time, res_skipass_id, resortid, customerid, reservationid) VALUES (%s, %s, %s, %s, %s)",
@@ -52,7 +51,6 @@ try:
                 
                 if i % batch_size == 0:
                     conn.commit()
-
                     # * Commented the manual refresh out because I enabled real-time aggregation by running the SQL code on line 87 in post_migration.py
                     # # Manually refresh aggregate outside of transaction block
                     # refresh_conn = psycopg2.connect(**conn_info)
@@ -66,7 +64,8 @@ try:
                     #     refresh_cursor.close()
                     #     refresh_conn.close()
 
-                time.sleep(0.01)
+                time.sleep(random.uniform(0.01, 0.50)) #Simulate different scan rate
+                #time.sleep(0.01)
                 # Sleep time extinguished for testing purposes (will be turned on again later)
 
 except psycopg2.Error as e:

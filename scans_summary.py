@@ -1,4 +1,5 @@
 import psycopg2
+#sqlalchemy ? to avoid error from pandas when reading sql
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -44,9 +45,9 @@ try:
 
             # Query 2: Scans per skipass
             df_skipass = pd.read_sql("""
-                    SELECT skipassid, COUNT(*) AS scans_for_skipass
+                    SELECT skipassid, passtype, resort_name, COUNT(*) AS scans_for_skipass
                     FROM scans_per_ten_seconds
-                    GROUP BY skipassid
+                    GROUP BY skipassid, passtype, resort_name
                     ORDER BY scans_for_skipass DESC;
                 """, conn)
             
@@ -65,19 +66,35 @@ try:
                     ORDER BY scans_for_reservation DESC;
                 """, conn)
 
-            # Query 4: Full scan data (your original request)
-            df_details = pd.read_sql("""
-                    SELECT bucket, passtype, skipassid, resort_name, customerid, customer_name, reservationid
-                    FROM scans_per_ten_seconds;
-                """, conn)
-
-            # Query 5: Time series - count of scans per time bucket
+            # Query 4: Time series - count of scans per time bucket
             df_timeseries = pd.read_sql("""
                     SELECT bucket, COUNT(*) AS scan_count
                     FROM scans_per_ten_seconds
                     GROUP BY bucket
                     ORDER BY bucket;
                 """, conn)
+
+            # Query 5: Full scan data (your original request)
+            #df_details = pd.read_sql("""
+            #        SELECT bucket, passtype, skipassid, resort_name, customerid, customer_name, reservationid
+            #        FROM scans_per_ten_seconds
+            #        ORDER BY bucket;
+            #    """, conn)
+            df_details = pd.read_sql("""
+                    SELECT 
+                    TO_CHAR(bucket, 'HH24:MI:SS') || ' - ' || TO_CHAR(bucket + INTERVAL '10 seconds', 'HH24:MI:SS') AS interval_range,
+                    COUNT(*) AS scan_count
+                    FROM scans_per_ten_seconds
+                    GROUP BY bucket
+                    ORDER BY bucket;
+                """, conn)
+
+            # 6. Show hypertable chunks
+            cursor.execute("SELECT show_chunks('skipass_scans');")
+            chunk_names = cursor.fetchall()
+            print("\n Hypertable Chunks:")
+            for chunk in chunk_names:
+                print(" -", chunk[0])
 
     # ---- Plotting Summary Visuals ----
     plt.figure(figsize=(18, 6))
@@ -118,13 +135,6 @@ try:
     # ---- Print Full Scan Data ----
     print("\nFull Scan Detail Data ({} rows):".format(len(df_details)))
     print(df_details.to_string(index=False))
-
-    # 6. Show hypertable chunks
-    #cursor.execute("SELECT show_chunks('skipass_scans');")
-    #chunk_names = cursor.fetchall()
-    #print("\n Hypertable Chunks:")
-    #for chunk in chunk_names:
-    #    print(" -", chunk[0])
 
 except psycopg2.Error as e:
     print("Connection failed:", e)

@@ -59,7 +59,7 @@ try:
                 CONSTRAINT fk_reservation FOREIGN KEY (reservationid) REFERENCES reservations(reservationid));
             """)
             
-            cursor.execute("SELECT create_hypertable('skipass_scans', 'scan_time');")
+            cursor.execute("SELECT create_hypertable('skipass_scans', 'scan_time', chunk_time_interval => interval '10 seconds');")
 
             cursor.execute("""
                 CREATE MATERIALIZED VIEW scans_per_ten_seconds
