@@ -4,6 +4,14 @@
 ## 📌 Introduction
 This assignment involves developing a **MariaDB database** for a hotel that specializes in customers on skiing trips. An **Entity Relationship Diagram (ERD)** was designed beforehand and is included in this repository. Note: the ERD does not include three entities that were later added during implementation.
 
+### Contributors
+- **Aidan Ryan**
+   - GitHub username: Maximus-cpu
+   - Matriculation number: 52416587
+- **Denis Vasilev**
+   - GitHub username: DenisVasilev05
+   - Matriculation number: 52403456
+
 ---
 
 ## 📦 Python Dependencies
