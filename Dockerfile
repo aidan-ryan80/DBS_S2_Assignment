@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
 ENV MARIADB_ROOT_PASSWORD=rootpass
 
 COPY requirements.txt .
-RUN pip3 install --no-cache-dir -r requirements.txt
+RUN pip3 install --no-cache-dir -r dockerfile_requirements.txt
 
 COPY ski_hotel_init.py /docker-entrypoint-initdb.d/ski_hotel_init.py
 COPY ski_hotel_init_wrapper.sh /docker-entrypoint-initdb.d/ski_hotel_init_wrapper.sh

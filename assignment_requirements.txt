@@ -1,0 +1,5 @@
+mariadb
+psycopg2-binary
+tabulate
+pandas
+matplotlib

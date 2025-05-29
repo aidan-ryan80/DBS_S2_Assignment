@@ -64,8 +64,8 @@ try:
                     #     refresh_cursor.close()
                     #     refresh_conn.close()
 
-                time.sleep(random.uniform(0.01, 0.50)) #Simulate different scan rate
-                #time.sleep(0.01)
+                time.sleep(random.uniform(0.01, 0.50)) # Simulate different scan rate
+                # time.sleep(0.01)
                 # Sleep time extinguished for testing purposes (will be turned on again later)
 
 except psycopg2.Error as e:
