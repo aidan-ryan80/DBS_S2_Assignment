@@ -2,7 +2,7 @@ import psycopg2
 import pandas as pd
 import matplotlib.pyplot as plt
 
-connection_uri = "postgres://postgres:superpass@localhost:5433/testDB"
+connection_uri = "postgres://postgres:superpass@localhost:5433/SkiHotelDB"
 
 try:
     with psycopg2.connect(connection_uri) as conn:

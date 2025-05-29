@@ -1,7 +1,7 @@
 import psycopg2
 
 conn_info = {
-    "dbname": "testDB",
+    "dbname": "SkiHotelDB",
     "user": "postgres",
     "password": "superpass",
     "host": "timescaledb",

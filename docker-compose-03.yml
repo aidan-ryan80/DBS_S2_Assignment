@@ -24,7 +24,7 @@ services:
     container_name: SkiHotelPSQLDB
     environment:
       POSTGRES_PASSWORD: superpass
-      POSTGRES_DB: testDB
+      POSTGRES_DB: SkiHotelDB
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "postgres"]
       interval: 10s
@@ -45,7 +45,6 @@ services:
         condition: service_healthy
     volumes:
       - ./migrate.load:/mnt/migrate.load
-      - ./start.sh:/start.sh
     entrypoint: ["pgloader", "/mnt/migrate.load"]
 
   simulator:

@@ -1,6 +1,6 @@
 LOAD DATABASE
     FROM mysql://root:rootpass@mariadb/SkiHotelDB
-    INTO postgresql://postgres:superpass@timescaledb/testDB
+    INTO postgresql://postgres:superpass@timescaledb/SkiHotelDB
 
 WITH include drop, create tables, create indexes, reset sequences
 

@@ -5,14 +5,14 @@ import json
 from datetime import datetime, timedelta
 
 conn_info = {
-    "dbname": "testDB",
+    "dbname": "SkiHotelDB",
     "user": "postgres",
     "password": "superpass",
     "host": "timescaledb",
     "port": 5432
 }
 
-connection_uri = "postgres://postgres:superpass@localhost:5433/testDB"
+connection_uri = "postgres://postgres:superpass@localhost:5433/SkiHotelDB"
 
 try:
     with psycopg2.connect(**conn_info) as conn:

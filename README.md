@@ -169,7 +169,7 @@ Ensure the MariaDB container is running before executing these scripts.
 4. In order to look at our database schema you can use the psql shell either from you local machine if you have psql installed or inside of the **postgresql** service.
 	- Accessing the psql shell if you have it on your machine: (Optional)
 	```bash
-    psql "postgres://postgres:superpass@localhost:5433/testDB"
+    psql "postgres://postgres:superpass@localhost:5433/SkiHotelDB"
 	```
 	- Accessing the psql shell inside of the docker container: (Optional)
 	```bash
