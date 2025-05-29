@@ -14,7 +14,7 @@ Before running any Python scripts, install the required packages using the follo
 pip install -r assignment_requirements.txt
 ```
 
-If you prefer to not install them globally you can fist also create a python virtual environment.
+If you prefer to not install them globally you can first also create a python virtual environment.
 
 These packages are needed for:
 - Connecting to the MariaDB database (`mariadb`)
@@ -35,17 +35,16 @@ These packages are needed for:
    docker-compose -f docker-compose-02.yml up
    ```
    - This uses the MariaDB 10.3 image and initializes the database using the `.sql` files in the `init/` directory (executed in alphabetical order).
-3. To enter the MariaDB shell:  
+3. To enter the MariaDB shell: (Optional)
    ```bash
    docker exec -it SkiHotelDB_01 mysql -u root -p
    ```
    - Password: `rootpass` (defined in `docker-compose.yml`)
    - The `SkiHotelDB` database will already exist and be accessible.
-4. Python scripts included in the repo:
-   - `ski_hotel_init.py`: creates all tables and inserts initial data.
-   - `execute_queries.py`: sample queries for testing the database.
-   - `ski_hotel_delete_data.py`: truncates all tables.
-   - `ski_hotel_reset.py`: drops all tables.
+4. Execute the following python script to view data from the sample queries:
+	```bash
+	python execute_queries.py
+	```
 5. To stop and clean up:
    ```bash
    docker-compose -f docker-compose-02.yml down -v
@@ -71,13 +70,13 @@ These packages are needed for:
    ```bash
    docker ps
    ```
-5. Enter the MariaDB shell:
+5. Enter the MariaDB shell: (Optional)
    ```bash
    docker exec -it <container-name> mysql -u root -p
    ```
    - Password: `rootpass` (defined in the Dockerfile)
 
-6. Use the same Python scripts listed in step 4 of the docker-compose method for testing, resetting, and developing.
+6. Follow the same instructions listed in step 4 of the docker-compose method to view the results of the sample queries.
 
 7. To stop and clean up manually:
    ```bash
@@ -102,7 +101,7 @@ python filename.py
 Python files used in Assignment 02:
 
 1. execute_queries.py
-- This python file can be used to execute default queries on the database.
+- This python file can be used to execute sample queries on the database.
 
 2. ski_hotel_delete_data.py (Optional)
 - This file can be used to delete all data in all of the tables
@@ -159,12 +158,12 @@ Ensure the MariaDB container is running before executing these scripts.
 	```
 - This will show summary graphs of the data from the continuous aggregate.
 - Also, it will print the chunks used by the hypertable and the rate at which ski pass scans occurred.
-4. In order to look at our database schema you can use the psql shell either from you local machine if you have psql installed or inside of the **postgresql** service. 
-	- Accessing the psql shell if you have it on your machine:
+4. In order to look at our database schema you can use the psql shell either from you local machine if you have psql installed or inside of the **postgresql** service.
+	- Accessing the psql shell if you have it on your machine: (Optional)
 	```bash
     psql "postgres://postgres:superpass@localhost:5433/testDB"
 	```
-	- Accessing the psql shell inside of the docker container:
+	- Accessing the psql shell inside of the docker container: (Optional)
 	```bash
 	docker exec -it SkiHotelPSQLDB psql -U postgres
 	```
