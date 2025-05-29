@@ -140,6 +140,9 @@ except psycopg2.Error as e:
 # \d => View info about tables or relations
 
 # * Hypertable chunks research:
+# SELECT show_chunks('skipass_scans');
+# SELECT show_chunks('scans_per_ten_seconds');
+
 # It looks like the default chunk size in postgresql is 7 days, which is why our data will always fall into a single chunk. 
 # We can either leave it, decrease the chunk size, or randomly select a date for the skipass scan instead of using current timestamps.
 
