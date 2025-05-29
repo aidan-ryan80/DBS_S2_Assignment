@@ -65,7 +65,8 @@ try:
                         refresh_cursor.close()
                         refresh_conn.close()
 
-                time.sleep(1)
+                #time.sleep(1)
+                # Sleep time extinguished for testing purposes (will be turned on again later)
 
 except psycopg2.Error as e:
     print("Connection failed:", e)
