@@ -159,7 +159,7 @@ Ensure the MariaDB container is running before executing these scripts.
    ```bash
    docker-compose -f docker-compose-03.yml up --build
    ```
-   - This runs 4 services the **MariaDB**, **postgresql**, **pgloader**, and **python** service.
+   - This runs 4 services: the **MariaDB**, **postgresql**, **pgloader**, and **python** service.
    - The **pgloader** service migrates the database schema in the **MariaDB** service from the second assignment to the database in the **postgresql** service.
    - The **python** service runs the **simulator.py** and **post_migration.py** scripts. The **simulator.py** script is run to simulate ski passes being scanned, which are automatically inserted into the database in the **postgresql** service, while the **post_migration.py** script is run before the **simulator.py** script in order to update the database schema for using a hypertable and a continuous aggregate.
 3. To view a summary of the data in the **postgresql** database run the following in another CLI:
